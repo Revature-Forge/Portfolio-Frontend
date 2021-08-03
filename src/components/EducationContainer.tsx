@@ -11,6 +11,7 @@ import EducationUpdate from './EducationUpdate';
 import {url} from "../api/api";
 import Education from "../interfaces/Education";
 
+
 const EducationContainer = () => {
     const backEndUrl = url + "/education";
     const [cookies] = useCookies();
@@ -52,6 +53,8 @@ const EducationContainer = () => {
             .then(response => response.json())
             .then(json => setEducations(json));
     }, [])
+
+    
 
     return (
         <div className="container">
@@ -103,3 +106,4 @@ const EducationContainer = () => {
 };
 
 export default EducationContainer;
+

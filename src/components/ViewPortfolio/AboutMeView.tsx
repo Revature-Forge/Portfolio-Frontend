@@ -18,8 +18,9 @@ const AboutMeView = () => {
 
     useEffect(() => {
         axios.get<AboutMe>(url + `/aboutMe/portfolio/${cookie['portfolio'].id}`).then(response => {
-            setAboutMe(response.data);
+            setAboutMe(response.data as AboutMe);
         })
+
     }, [null]);
 
     const renderAboutMe = (aboutMe: AboutMe) => {

@@ -28,7 +28,7 @@ const HonorAwardView = () => {
             const date = new Date(data.dateReceived).toLocaleString('default', { month: 'long', year: 'numeric' });
             const day = new Date(data.dateReceived).getDate();
             return (
-                <div className="card" key={data.id}>
+                <div className="card" key={data.id} data-testid="card">
                     <div className="card-header" id="bottom-border">
                         <h1>{data.title}</h1>
                     </div>

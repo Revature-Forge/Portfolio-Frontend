@@ -27,7 +27,7 @@ const EducationView = () => {
         return educationList.map(data => {
             let date = data.graduationDate.substring(5, 7) + "/" + data.graduationDate.substring(8) + "/" + data.graduationDate.substring(0, 4);
             return (
-                <div className="card">
+                <div className="card" data-testid="card">
                     <div className="card-header" id="bottom-border">
                         <h1>Degree: {data.degree}</h1>
                     </div>
@@ -38,7 +38,7 @@ const EducationView = () => {
                             <h5>GPA: {data.gpa}</h5>
                         </span>
                         {(data.logoUrl !== "" && data.logoUrl !== null) &&
-                            <img src={data.logoUrl} style={{ height: '100px', width: '150px' }} />
+                            <img src={data.logoUrl} data-testid="eduLogo" style={{ height: '100px', width: '150px' }} />
                         }
                     </div>
                 </div>

@@ -7,8 +7,10 @@ import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/HonorAwards.css'
 import { CSSProperties } from 'react'
-import {honorUrl} from "../api/api";
-
+import {url} from "../api/api";
+import awardValidation from './validation/AwardValidation'
+import styleInvalidElements from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg'
 
 const HonorAwards = () => {
     // Cookies
@@ -63,10 +65,14 @@ const HonorAwards = () => {
 
     //***************************************************/
 
+
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+
+
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get(`${honorUrl}/portfolio/${cookies['portfolio'].id}`)
+        axios.get(url + "/honor/portfolio/"+cookies['portfolio'].id)
 
         .then(response => {
             createHonorAward(response.data)
@@ -198,7 +204,7 @@ const HonorAwards = () => {
     // Delete honor/award from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete(`${honorUrl}/${input}`)
+        axios.delete(url + "/honor/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -215,50 +221,63 @@ const HonorAwards = () => {
 
 
     const handleSave = () => {
-        console.log("awardtitle" + title);
+        if (awardValidation("true", title, description, receivedFrom, dateReceived, portfolio)){
+            console.log("awardtitle" + title);
 
-        axios.post(honorUrl, {
-            title,
-            description,
-            receivedFrom,
-            dateReceived,
-            portfolio: cookies['portfolio']
- 
-        })
-        .then(resp => {
-            console.log(resp.data);
-            console.log("honorawards saved succesfully")
-            window.location.reload()
+            axios.post(url + "/honor", {
+                title,
+                description,
+                receivedFrom,
+                dateReceived,
+                portfolio: cookies['portfolio']
+    
+            })
+            .then(resp => {
+                console.log(resp.data);
+                console.log("honorawards saved succesfully")
+                window.location.reload()
 
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setAwardTitle('');
-        setDesc('');
-        setRecefrom('');
-        setReceon('');
-        setShowExperience(false)
+            })
+            .catch(error => {
+                console.log("error")
+            })
+            setAwardTitle('');
+            setDesc('');
+            setRecefrom('');
+            setReceon('');
+            setShowExperience(false)
+            setValidationErrors([]);
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
+            setValidationErrors(["Please populate the required fields"]);
+        }
     }
     //***********************************************************************/
     // Update honor/award from database
     //***********************************************************************/
     const handleUpdate = (input: any) => {
-        axios.put(honorUrl,{
-        id,
-        title,
-        description,
-        receivedFrom,
-        dateReceived
-
-    })
-        .then(resp => {
-            console.log("honor updates");
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
+        if (awardValidation(id, title, description, receivedFrom, dateReceived, "true")){
+            axios.put(url + "/honor",{
+            id,
+            title,
+            description,
+            receivedFrom,
+            dateReceived
+            })
+            .then(resp => {
+                console.log("honor updates");
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error")
+            })
+            setValidationErrors([]);
+        }else{
+            let inputElements = document.getElementsByClassName("form-input");
+            styleInvalidElements(inputElements);
+            setValidationErrors(["Please populate the required fields"]);
+        }
     }
 
     return (
@@ -283,15 +302,16 @@ const HonorAwards = () => {
                         <form onSubmit={handleSave}>
                             <h6>AwardTitle</h6>
 
-                            <input type="text" name="title" className="form-input" required onChange={e => setAwardTitle(e.target.value)}/>
+                            <input type="text" name="title" className="form-input" required value ={title} onChange={e => setAwardTitle(e.target.value)}/>
                             <h6>Description</h6>
-                            <input type="text" name="description" className="form-input honoraward-textarea" required onChange={e => setDesc(e.target.value)}/>
+                            <input type="text" name="description" className="form-input honoraward-textarea" required value ={description} onChange={e => setDesc(e.target.value)}/>
                             <h6>ReceivedFrom</h6>
-                            <input type="text" name="receivedFrom" className="form-input"  required onChange={e => setRecefrom(e.target.value)}/>
+                            <input type="text" name="receivedFrom" className="form-input"  required value ={receivedFrom} onChange={e => setRecefrom(e.target.value)}/>
                             <h6>Received On</h6>
-                            <input type="date" name="dateReceived" className="form-input" required onChange={e => setReceon(e.target.value)}/>
+                            <input type="date" name="dateReceived" className="form-input" required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
 
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddExperience}>Close</Button>
@@ -313,6 +333,7 @@ const HonorAwards = () => {
                             <h6>Received On</h6>
                             <input type="date" name="Received On" className="form-input"  required value ={dateReceived} onChange={e => setReceon(e.target.value)}/>
                         </form>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
@@ -321,7 +342,7 @@ const HonorAwards = () => {
                 </Modal>
                 <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static">
                     <Modal.Header>Delete Warning</Modal.Header>
-                    <Modal.Body><p>This will  permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Body><p>This will  permanantly delete this info. Are you sure?</p></Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
                         <Button variant="secondary" onClick={handleCloseDelete}>Close</Button>

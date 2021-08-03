@@ -1,0 +1,44 @@
+name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  - main
+  - dev
+
+pr:
+  - main
+  - dev
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Build
+    jobs:
+      - template: ./build-job-template.yml
+        parameters:
+          jobName: 'Build'
+          nodeVersion: '14.x'
+  
+  - stage: Analyze
+    dependsOn: []
+    jobs:
+      - template: ./code-coverage-analysis-template.yml
+        parameters:
+          serviceConnection: 'Forge-SonarCloud'
+          organization: '1058-sophia-gavrila-forge'
+          projectKey: '1058-Sophia-Gavrila-Forge_Portfolio-Frontend'
+          projectName: 'Portfolio-Frontend'
+  
+  - stage: Notify
+    dependsOn: ["Build", "Analyze"]
+    condition: always()
+    jobs:
+      - template: ./discord-job-template.yml
+        parameters:
+          name: 'Team2-P3-Frontend'
+          title: 'Forge Portfolio Management System DevOps'
+          discordVarGroup: Discord-Webhook-Info
+            # parameters.discordVarGroup contains the name of a variable group set in Azure Pipelines > Library
+            # the variable group contains two variables: discordid and discordkey
+            # currently, the discordVarGroup is named Discord-Webhook-Info, 
+            # but can be swapped out if you want to notify to multiple Discord webhooks.

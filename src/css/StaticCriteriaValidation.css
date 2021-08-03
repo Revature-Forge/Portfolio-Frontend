@@ -1,0 +1,39 @@
+
+/*
+    CSS styles concerning Static Criteria Validation
+
+        - Error Message Validation appended to form bottom
+*/
+
+/*Styling error message list that appears to notify users of an invalid form */
+/* ./Validation/ValidationMsg.tsx */
+
+#form-component-error-list 
+{
+    color: red;
+    font-style: italic;
+    /* font-weight: 500; */
+    font-size: 92%;     /* In between small and medium */
+
+    /* position center of the div */
+    position: relative;
+    width: 80%;
+    margin-top: 1%;
+    margin-left: 10%;
+    text-align: center;
+}
+
+/* style bullet list within div */
+#form-component-error-list > ul
+{
+    list-style-type: none;
+    display: inline-block;
+    text-align: center;
+
+    padding-left: 0;
+    margin-bottom: 2em;
+}
+
+
+
+/* Other Styling */

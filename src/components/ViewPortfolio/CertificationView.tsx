@@ -28,7 +28,7 @@ const CertificationView = () => {
         return certifications.map(data => {
             let date = data.issuedOn.substring(5, 7) + "/" + data.issuedOn.substring(8) + "/" + data.issuedOn.substring(0, 4);
             return (
-                <div className="card">
+                <div className="card" data-testid="card">
                     <div className="card-header" id="bottom-border">
                         <h1>Certification Name: {data.name}</h1>
                     </div>

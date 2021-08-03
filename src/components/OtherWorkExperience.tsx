@@ -7,13 +7,16 @@ import { Tooltip } from 'reactstrap';
 import { useCookies } from 'react-cookie';
 
 import '../css/OtherWorkExperience.css'
-import { workHistoryUrl } from '../api/api';
+import { url } from '../api/api';
+import otherWorkExpValidation from './validation/OtherWorkExpValidation';
+import { styleInvalidElementsByNameNotNull } from './validation/InvalidFormHandling';
+import ValidationMsg from './validation/ValidationMsg'
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => { setShow(false); setValidationErrors([]); }
     const handleShow = () => setShow(true);
 
     const [employer, setEmployer] = useState("");
@@ -43,7 +46,7 @@ const OtherWorkExperience = () => {
     // Update Modal show and hide
     //**************************************************************************/
     const[showUpdateExperience, setShowUpdateExperience] = useState(false)
-    const handleCloseUpdateExperience = () => setShowUpdateExperience(false)
+    const handleCloseUpdateExperience = () => { setShowUpdateExperience(false); setValidationErrors([]); }
     const handleShowUpdateExperience = () => setShowUpdateExperience(true)
     //**************************************************************************/
 
@@ -54,10 +57,15 @@ const OtherWorkExperience = () => {
     const handleShowDeleteOWE = () => setShowDeleteOWE(true)
     //*****************************************************/
 
+    //Render Error Messages
+    //*****************************************************/
+    const [validationErrors, setValidationErrors] =  useState<string[]>([]);
+    //*****************************************************/
+
     // Get data from data base
     //***********************************************************/
     const getData = async () => {
-        axios.get(`${workHistoryUrl}/portfolio/${cookies["portfolio"].id}`)
+        axios.get(url + "/workhistory/portfolio/" + cookies["portfolio"].id)
         .then(resp => {
             createWorkExperience(resp.data);
         })
@@ -71,7 +79,7 @@ const OtherWorkExperience = () => {
     // Delete work experience from database
     //*******************************************************************************************/
     const handleDelete = (input: any) => {
-        axios.delete(`${workHistoryUrl}/${input}`)
+        axios.delete(url + "/workhistory/" + input)
         .then(resp => {
             console.log("Delete was successful");
             window.location.reload()
@@ -82,36 +90,76 @@ const OtherWorkExperience = () => {
     }
     //*******************************************************************************************/
 
+
     // Save data to database
+    /**** ERROR CHECKING PREVENTS SAVING TO DB ON ERROR ****/
+
     //***************************************************/
     const handleSave = () => {
-        let portfolio = cookies['portfolio'];
-        console.log(portfolio);
-        axios.post(workHistoryUrl, {
-            employer,
-            title,
-            responsibilities,
-            description,
-            tools,
-            startDate,
-            endDate,
-            portfolio
-        })
-        .then(resp => {
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log(error)
-        })
 
-        setEmployer("");
-        setTitle("");
-        setResponsibilities("");
-        setDescription("");
-        setTools("");
-        setStartDate("");
-        setEndDate("");
-        setShow(false);
+        //Validate field contents from validation/OtherWorkExpValidation.tsx
+        const wrkExpObj: any = {
+            employer: employer,
+            title: title,
+            responsibilities: responsibilities,
+            description: description,
+            tools: tools,
+            startDate: startDate,
+            endDate: endDate
+        }
+
+        //returns string *array* returning which above states have errors, in above order
+        const errorElems = otherWorkExpValidation(wrkExpObj);
+        let isValid = true;
+        errorElems.forEach((elem) => { isValid = isValid && !elem});
+
+        //Continue and save data if all fields are valid
+        if(isValid) 
+        {
+            let portfolio = cookies['portfolio'];
+            console.log(portfolio);
+            axios.post(url + "/workhistory", {
+                employer,
+                title,
+                responsibilities,
+                description,
+                tools,
+                startDate,
+                endDate,
+                portfolio
+            })
+            .then(resp => {
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    
+            setEmployer("");
+            setTitle("");
+            setResponsibilities("");
+            setDescription("");
+            setTools("");
+            setStartDate("");
+            setEndDate("");
+            setValidationErrors([]);
+            setShow(false);
+        }
+        else {
+            /* log error to the console
+                - iterate over HTML elements and style inccorect elements
+                - do not close display
+            */
+            console.log("Error: Invalid fields in other work Experience form");
+            Object.keys(wrkExpObj).forEach((key: string, keyIndex: number) => {
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
+             });
+            
+             console.log("errr elems: "+errorElems);
+             setValidationErrors(errorElems);
+        }
+
+        
     }
     //***************************************************/
 
@@ -120,27 +168,63 @@ const OtherWorkExperience = () => {
     const handleUpdate = (input: any) => {
         let portfolio = cookies['portfolio'];
 
-        let id:any = input;
-        axios.put(workHistoryUrl,{
-            id,
-            employer,
-            startDate,
-            endDate,
-            title,
-            description,
-            responsibilities,
-            tools, 
-            portfolio
-        })
-        .then(resp => {
-            console.log(resp.data);
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error: " + error)
-        })
+         //Validate field contents from validation/OtherWorkExpValidation.tsx
+         const wrkExpObj: any = {
+            employer: employer,
+            title: title,
+            responsibilities: responsibilities,
+            description: description,
+            tools: tools,
+            startDate: startDate,
+            endDate: endDate
+        }
+
+        //returns boolean *array* indicating which above state is valid, in above order
+        const errorElems = otherWorkExpValidation(wrkExpObj);
+        let isValid = true;
+        errorElems.forEach((elem) => { isValid = isValid && !elem});
+
+        //Continue and update data if all fields are valid
+        if(isValid) 
+        {
+            let id:any = input;
+            axios.put(url + "/workhistory",{
+                id,
+                employer,
+                startDate,
+                endDate,
+                title,
+                description,
+                responsibilities,
+                tools, 
+                portfolio
+            })
+            .then(resp => {
+                console.log(resp.data);
+                window.location.reload()
+            })
+            .catch(error => {
+                console.log("error: " + error)
+            })
+
+        } else {
+            /* log error to the console
+                - iterate over HTML elements and style inccorect elements
+                - do not close display
+            */
+            console.log("Error: invalid fields in other work Experience form UPDATE");
+            Object.keys(wrkExpObj).forEach((key: string, keyIndex: number) => {
+                styleInvalidElementsByNameNotNull(document.getElementsByName(key), !errorElems[keyIndex] );
+             });
+
+             //set our string error msg
+             setValidationErrors(errorElems);
+        }
+        //Form stays open until they enter data correctly or cancel
+
     }
     //***********************************************************************/
+
 
     //Render work experience on page
     //*********************************************************************/
@@ -300,6 +384,10 @@ const OtherWorkExperience = () => {
                         <h6>Tools / Technologies</h6>
                         <textarea name="tools" className="form-input" style={{height: "100px"}} onChange={ (e) => setTools(e.target.value)}/>
                     </form>
+
+                     {/* error msgs go here in list */ }
+                     <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                 </Modal.Body>
                 <Modal.Footer>
                         <Button variant="secondary" className="" onClick={handleClose}>Close</Button>
@@ -344,6 +432,10 @@ const OtherWorkExperience = () => {
                             <h6>Problem Desciption</h6>
                             <textarea name="description" className="form-input work-experience-textarea" style={{height: "100px"}} value={description} onChange={e => setDescription(e.target.value)}></textarea>
                         </form>
+
+                        {/* error msgs go here in list */ }
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
+
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseUpdateExperience}>Close</Button>
@@ -353,7 +445,7 @@ const OtherWorkExperience = () => {
                 {/* this will popup to make sure the user wants to delete a card */}
                 <Modal show={showDeleteOWE} onHide={handleCloseDeleteOWE} backdrop="static">
                     <Modal.Header>Delete Warning</Modal.Header>
-                    <Modal.Body><p>This will permanantly delete this info. Are you Sure?</p></Modal.Body>
+                    <Modal.Body><p>This will permanantly delete this info. Are you sure?</p></Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={() => {handleDelete(id)}}>Yes, Permanantly Delete</Button>
                         <Button variant="secondary" onClick={handleCloseDeleteOWE}>Close</Button>

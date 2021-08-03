@@ -28,7 +28,7 @@ const ProjectView = () => {
     const renderProjects = ((projectList: Projects[]) => {
         return projectList.map(data => {
             return (
-                <div className="card">
+                <div className="card" data-testid="card">
                     <div className="card-header" id="bottom-border">
                         <h1 style={{ fontWeight: 'bold' }}>{data.name}</h1>
                     </div>
@@ -50,7 +50,7 @@ const ProjectView = () => {
 
     return (
         <div className="container">
-            <Card id="card-container">
+            <Card id="card-container" data-testid="card-container">
                 <Card.Header id="header">
                     <h4>Project</h4>
                 </Card.Header>

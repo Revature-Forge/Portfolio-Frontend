@@ -34,7 +34,7 @@ const OtherWorkExperienceView = () => {
     const renderOtherWorkExperience = (experienceList: OtherWorkExperience[]) =>{
         return experienceList.map(data => {
             return(
-                <div className="card">
+                <div className="card" data-testid="card">
                     <div className="card-header">
                         {data.employer}
                     </div>

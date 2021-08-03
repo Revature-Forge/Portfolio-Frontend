@@ -1,13 +1,18 @@
-# Geting Started
-To edit the code do a `git clone https://github.com/javatures/Portfolio-Frontend.git` in gitbash inside the the file folder directory on you local machine where you want the code cloned to.
-- Open VS Code and open the folder.
-- Run the following commands:
-    - `npm install react`
-    - `npm install react-router-dom`
-    - `npm install axios`
-    - `npm install react-bootstrap bootstrap`
-    - `npm install react-cookie`
-    - `npm i react-bootstrap-icons`
-    - `npm i bootstrap`
-    - `npm i reactstrap react react-dom`
-    - `npm i query-string`
+# Getting Started
+## Cloning the repo
+- Create a new folder
+- Within the new folder
+    - Clone Forge-Backend
+    - Clone Porfolio-Frontend
+
+<b>Have these projects within the same directory for the docker-compose to work.</b>
+
+## Development
+- `npm install` to install the necessary dependencies.
+- `npm start` to run the React site.
+    - Access the site via `http://localhost:3000`
+    - The application will be unable to process request without the backend running.
+- To run the backend see `Forge-Backend/STARTUP.md#Development`
+
+## Deployment
+In deployment the built React site will be served by the Springboot application. See `Forge-Backend/STARTUP.md#Deployment` for how to deploy.

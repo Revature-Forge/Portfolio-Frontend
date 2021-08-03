@@ -1,12 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Button, Modal, ModalBody} from 'react-bootstrap';
-import { QuestionCircle, PlusCircle, XCircle } from 'react-bootstrap-icons';
-import { Input, Tooltip } from 'reactstrap';
+import { QuestionCircle, PlusCircle, XCircle, Pencil } from 'react-bootstrap-icons';
+import { Tooltip } from 'reactstrap';
 import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
-import {aboutMeUrl} from "../api/api";
+import {aboutMeUrl, url} from "../api/api";
+import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
+import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
+import ValidationMsg from './validation/ValidationMsg';
 
 const RevatureAboutMe = () => {
     // Model show and hide
@@ -45,32 +48,42 @@ const RevatureAboutMe = () => {
     const [id, setID] = useState('')
     //***************************************************/
 
+    // Render error messages.
+    /****************************************************/
+     const [validationErrors, setValidationErrors] = useState<string[]>([]);
+     const toggleValidationErrors = () => setValidationErrors(([]))
+     /****************************************************/
+
     //COOKIES!
-    const [cookies, setCookies] = useCookies()
+    const [cookies] = useCookies()
     //*************************************************** */
 
+    // Placeholders for when the add/edit modules are brought up.
+    //**************************************************************************************************/
+    const bioPlaceholder = "Input a brief bio here, the bio must be 100 characters long to be valid."
+    const emailPlaceholder = "exampleEmail@gmail.com";
+    const phonenumberPlaceholder = "123-456-7890";
+    //**************************************************************************************************/
+    
     //Render about me on page
     //*********************************************************************/
-    const createAboutMe = (id: string, bio: string, email: string, phone: string) => {
+    const createAboutMe = (aboutMeId: string, aboutMeBio: string, aboutMeEmail: string, aboutMePhone: string) => {
 
         let aboutMe = document.querySelector('.about-me-content')
-        let div = document.createElement('div')
-        
+        let div = document.createElement('div')        
 
             let rowDiv = document.createElement('div')
             let bioHeader = document.createElement('p')
             let emailHeader = document.createElement('h6')
             let phoneHeader = document.createElement('h6')
-            let deleteButton = document.createElement('button')
-            let editButton = document.createElement('button')
             
-            setID(id)
-            bioHeader.innerHTML = bio
-            setBio(bio)
-            emailHeader.innerHTML = "Email: " + email
-            setEmail(email)
-            phoneHeader.innerHTML = "Phone: " + phone
-            setPhone(phone)
+            setID(aboutMeId)
+            bioHeader.innerHTML = aboutMeBio
+            setBio(aboutMeBio)
+            emailHeader.innerHTML = "Email: " + aboutMeEmail
+            setEmail(aboutMeEmail)
+            phoneHeader.innerHTML = "Phone: " + aboutMePhone
+            setPhone(aboutMePhone)
             
             bioHeader.style.whiteSpace = "pre-wrap"
             bioHeader.style.marginBottom = "50px"
@@ -79,35 +92,6 @@ const RevatureAboutMe = () => {
 
             emailHeader.setAttribute("class", "afterStyle")
             phoneHeader.setAttribute("class", "afterStyle")
-
-            editButton.setAttribute("class", "btn btn-secondary")
-            editButton.setAttribute("id", id)
-            editButton.style.float = "right"
-            editButton.style.marginRight = "10px"
-            editButton.innerHTML = "Edit"
-
-            deleteButton.setAttribute("class", "btn btn-danger")
-            deleteButton.setAttribute("id", id)
-            deleteButton.style.float = "right"
-            deleteButton.style.marginRight = "10px"
-            deleteButton.innerHTML = "Delete"
-
-            editButton.addEventListener("click", () => {
-                setID(id)
-                setBio(bio)
-                setEmail(email)
-                setPhone(phone)
-                handleEditShow()
-            })
-
-            deleteButton.addEventListener("click", () => {
-                setID(id)
-                handleDeleteShow()
-
-            })
-
-            rowDiv.appendChild(deleteButton)
-            rowDiv.appendChild(editButton)
          
             div.setAttribute("class", "card")
             div.style.border = "none"
@@ -117,47 +101,78 @@ const RevatureAboutMe = () => {
             div.appendChild(emailHeader)
             div.appendChild(phoneHeader)
 
-            aboutMe?.appendChild(div) 
+            aboutMe?.appendChild(div)
+
 
         
         div.style.padding = "5px"
-        // div.style.border = "2px solid black"
         div.style.marginBottom = "10px"
     }
 
-    // POST METHOD FOR CREATING
-
-    const handleSave = async () => {
+    /**
+     * Method to handle creation and saving of a portfolio. This method can handle both creation 
+     * and updating portfolio.
+     * @param portfolioId The id of the portfolio, if this is null then a new portfolio is being updated.
+     */
+    const handleSave = async (portfolioId:string) => {
         let portfolio = cookies['portfolio']
-        axios.post(aboutMeUrl, { portfolio, bio, email, phone})
-        .then(response => {
+
+        // Checking to see which parts of the about me information is valid.
+        const isBioValid = aboutMeValidateBio(bio);
+        const isEmailValid = aboutMeValidateEmail(email);
+        const isPhoneValid = aboutMeValidatePhone(phone);
+
+        // If the information provided is valid then update update.
+        if(isBioValid && isEmailValid && isPhoneValid){
+            // Request variable.
+            let req;
+            // If there is no ID present then a new portfolio is being updated.
+            if(portfolioId == ""){
+                req = axios.post(url + "/aboutMe", { portfolio, bio, email, phone});
+            // If there is an ID present then update the existing portfolio.
+            } else {
+                req = axios.post(url + "/aboutMe/" + portfolioId, { portfolioId, bio, email, phone});
+            }
+        
+        // Process the request and update the page or catch an error.
+        req.then(response => {
             console.log("success") 
             console.log(response.data)
             window.location.reload()
         })
+        // If there is an error on the server side, notify the user.
         .catch(error => {
             console.log("error")
+            let errorElems:string[] = ["An unknown error occured."];
+            setValidationErrors(errorElems)
         })
         setShow(false)
         setEditShow(false)
+
+        // If any of the following was false check and return which part(s) is/are invalid.
+        } else {
+            let errorElems:string[] = [];
+            if(!isBioValid){
+                let bioElement = document.getElementsByName("bioName");
+                errorElems.push("The bio is too short, please write a bio at least 100 characters long.");
+                styleInvalidElementsByName(bioElement);
+
+            }
+            if(!isEmailValid){
+                let emailElement = document.getElementsByName("fromDate");
+                errorElems.push("The email is not valid, please input a valid email.");
+                styleInvalidElementsByName(emailElement);
+            }
+
+            if(!isPhoneValid){
+                let phoneElement = document.getElementsByName("toDate");
+                errorElems.push("The phone number is not valid, please input a valid phone number.");
+                styleInvalidElementsByName(phoneElement);
+            }
+            // Populate the errors on the toast.
+            setValidationErrors(errorElems);
+        }
     }
-
-    //POST METHOD FOR UPDATING
-
-    const handleUpdate = async (id: string) => {
-        axios.post(`${aboutMeUrl}/${id}`, {id, bio, email, phone})
-        .then(response => {
-            console.log("success")
-            console.log(response.data)
-            window.location.reload()
-        })
-        .catch(error => {
-            console.log("error")
-        })
-        setShow(false)
-        setEditShow(false)
-    } 
-
 
     //GET METHOD
 
@@ -170,6 +185,12 @@ const RevatureAboutMe = () => {
                     let kd = document.querySelector('#add-aboutMe')
                     kd?.setAttribute("class", "hide") 
                     createAboutMe(response.data.id, response.data.bio, response.data.email, response.data.phone)
+                } else {
+                    let editButton = document.querySelector('#edit-aboutMe')
+                    let deleteButton = document.querySelector('#delete-aboutMe')
+
+                    editButton?.setAttribute("class","hide")
+                    deleteButton?.setAttribute("class","hide")
                 }
 
         })
@@ -180,12 +201,10 @@ const RevatureAboutMe = () => {
 
     useEffect(()=> {handleGet()},[]);
 
-    // DELTE METHOD
-
-
-    const handleDelete = (id: any) => {
-        console.log("this is the id " + id)
-        axios.delete(`${aboutMeUrl}/${id}`)
+    // DELETE METHOD
+    const handleDelete = (portfolioId: any) => {
+        console.log("this is the id " + portfolioId)
+        axios.delete(`${aboutMeUrl}/${portfolioId}`)
         .then(response => {
             console.log(response)
             window.location.reload()
@@ -196,21 +215,26 @@ const RevatureAboutMe = () => {
         setDeleteShow(false)
     }
 
-    // Information meassage
-    const editMessage: string = "this is the edit bio button"
     let rowLength = 10
-    let columnLength = 47
 
     return (
         <div className="container">
             <Card id="card-container">
                 <Card.Header id="header">
-                    <h4>
+                    <h4 id="aboutMe-header">
                         About Me
                         <QuestionCircle id="card-info" onClick={handleShowDetails} />
+                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+
                         <PlusCircle id="add-aboutMe" onClick={handleShow} />
                         <Tooltip target="add-aboutMe" isOpen={addTooltipOpen} toggle={toggleAdd}>Add</Tooltip>
-                        <Tooltip target="card-info" isOpen={detailsTooltipOpen} toggle={toggleDetails}>Details</Tooltip>
+                        
+                        <Pencil id="edit-aboutMe" onClick ={handleEditShow}>Edit</Pencil>
+                        <Tooltip target="edit-aboutMe" isOpen={editTooltipOpen} toggle={toggleEdit}>Edit</Tooltip>
+                        
+                        <XCircle id="delete-aboutMe" onClick ={handleDeleteShow}>Delete</XCircle>
+                        <Tooltip target="delete-aboutMe" isOpen={deleteToolTipOpen} toggle={toggleDelete}>Delete</Tooltip>
+                        
                     </h4>
                 </Card.Header>
 
@@ -223,18 +247,20 @@ const RevatureAboutMe = () => {
                     <Modal.Body className="modalBody">
                         <form method="post">
                             <h6>Bio</h6>
-                            <textarea style={{width: "100%"}} name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
+                            <textarea className="form-textarea" placeholder={bioPlaceholder} name="bioName" rows={rowLength} onChange={e => setBio(e.target.value)}></textarea>
                             <h6>Email</h6>
-                            <input type="email" name="fromDate" className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
+                            <input type="email" name="fromDate" placeholder={emailPlaceholder} className="form-input" id="" onChange={e => setEmail(e.target.value)}/><br />
                             <h6>Phone #</h6>
-                            <input type="text" name="toDate" className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
+                            <input type="text" name="toDate" placeholder={phonenumberPlaceholder} className="form-input" id="" onChange={e => setPhone(e.target.value)}/><br />
                         </form>
+                        <br></br>
+                        <ValidationMsg errors={validationErrors}></ValidationMsg>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="secondary" onClick={() => {handleClose(); toggleValidationErrors();}}>
                             Close
                         </Button>
-                        <Button variant="primary" className="oButton" onClick={() => {handleSave();}}>Add</Button>
+                        <Button variant="primary" className="oButton" onClick={() => {handleSave("");}}>Add</Button>
                     </Modal.Footer>
                
                 </Modal>
@@ -252,18 +278,20 @@ const RevatureAboutMe = () => {
                             <Modal.Body>
                                 <form method="post">
                                     <h6>Bio</h6>
-                                    <textarea style={{width: "100%"}} name="bioName" rows={rowLength} value={bio} onChange={e => setBio(e.target.value)}></textarea>
+                                    <textarea className="form-textarea" name="bioName" rows={rowLength} value={bio} onChange={e => setBio(e.target.value)}></textarea>
                                     <h6>Email</h6>
                                     <input type="email" name="fromDate" className="form-input" id="" value={email} onChange={e => setEmail(e.target.value)}/><br />
                                     <h6>Phone #</h6>
                                     <input type="tel" name="toDate" className="form-input" id="" value={phone} onChange={e => setPhone(e.target.value)}/><br />
                                 </form>
+                                <br></br>
+                                <ValidationMsg errors={validationErrors}></ValidationMsg>
                             </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleEditClose}>
+                                <Button variant="secondary" onClick={() => {handleEditClose(); toggleValidationErrors();}}>
                                         Close
                                     </Button>
-                                    <Button className="oButton" onClick={() => {handleUpdate(id);}}>Update</Button>
+                                    <Button className="oButton" onClick={() => {handleSave(id);}}>Update</Button>
                                 </Modal.Footer>
                         </Modal>
 
@@ -274,7 +302,7 @@ const RevatureAboutMe = () => {
                                 <Modal.Title>Delete Warning</Modal.Title>
                             </Modal.Header>
                             <Modal.Body >
-                                <h3>This will permanantly delete this info. Are you Sure?</h3>
+                                <p>This will permanantly delete this info. Are you sure?</p>
                             </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="danger" onClick={() => {handleDelete(id);}}>Yes, Permanantly Delete</Button>
@@ -313,5 +341,4 @@ const RevatureAboutMe = () => {
         </div>
     )
 }
-
 export default RevatureAboutMe

@@ -37,6 +37,10 @@ h6 {
   margin-bottom: 20px;
 }
 
+.not-required-input::after {
+  content: "" !important;
+}
+
 #card-body {
   max-height: 500px;
   overflow-y: auto;
@@ -45,6 +49,11 @@ h6 {
 form {
   margin: 20px;
   padding: 15px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
 }
 
 .yes-button {

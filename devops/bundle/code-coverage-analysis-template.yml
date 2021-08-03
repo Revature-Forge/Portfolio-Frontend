@@ -1,0 +1,30 @@
+parameters:
+  - name: 'serviceConnection'
+    type: string
+  - name: 'organization'
+    type: string
+  - name: 'projectKey'
+    type: string
+  - name: 'projectName'
+    type: string
+jobs:
+  - job: Static_Analysis
+    steps:
+      - task: SonarCloudPrepare@1
+        inputs:
+          SonarCloud: '${{ parameters.serviceConnection }}'
+          organization: '${{ parameters.organization }}'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: '${{ parameters.projectKey }}'
+          cliProjectName: '${{ parameters.projectName }}'
+          cliSources: './src'
+        displayName: Sonar Configuration
+
+      - task: SonarCloudAnalyze@1
+        displayName: Run SonarScanner
+
+      - task: SonarCloudPublish@1
+        inputs:
+          pollingTimeoutSec: '300'
+        displayName: Wait for QualityGate

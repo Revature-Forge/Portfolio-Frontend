@@ -12,13 +12,22 @@
     rgba(0, 0, 0, 0) 18%
   );
 }
-.ring-2 {
+.ring-1 {
   background: radial-gradient(
     circle,
     rgba(160, 0, 224, 0) 28%,
     rgba(160, 0, 224, 1) 30%,
     rgba(160, 0, 224, 1) 40%,
     rgba(160, 0, 224, 0) 42%
+  );
+}
+.ring-2 {
+  background: radial-gradient(
+    circle,
+    rgba(150, 8, 223, 0) 28%,
+    rgb(150, 6, 226) 30%,
+    rgb(150, 8, 226) 40%,
+    rgba(150, 0, 224, 0) 42%
   );
 }
 .ring-3 {

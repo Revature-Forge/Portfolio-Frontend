@@ -1,42 +1,58 @@
-.card:not(:first-child){
-    margin-top: 25px;
+.card:not(:first-child) {
+  margin-top: 25px;
 }
 
-#bottom-border{
-    border-bottom: 5px solid rgb(115, 165, 194);
-    background-color: white;
+#bottom-border {
+  border-bottom: 5px solid rgb(115, 165, 194);
+  background-color: white;
 }
 
-#aboutMe-h6{
-    color: grey;
+#aboutMe-h6 {
+  color: grey;
 }
 
-#aboutMe-h6::after{
-    content: "";
+#aboutMe-h6::after {
+  content: "";
 }
 
-#industry{
-    display: flex;
-    flex-direction: row;
+#industry {
+  display: flex;
+  flex-direction: row;
 }
 
-.eq-label-text-view{
-    width: 7em;
+.eq-label-text-view {
+  width: 7em;
 }
 
-#body-flex-content{
-    display: flex;
-    justify-content: space-between;
+#body-flex-content {
+  display: flex;
+  justify-content: space-between;
 }
 
-.flag:focus, .flag:active {
-    outline:none !important;
-    box-shadow: none !important;
+.flag:focus,
+.flag:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .flagPopover {
-    /* background-color: rgb(115,165,194); */
-    background-color:rgb(242,105,38);
-    font-weight: 600; 
-    color: white;
+  /* background-color: rgb(115,165,194); */
+  background-color: rgb(242, 105, 38);
+  font-weight: 600;
+  color: white;
+}
+
+#view-port-button {
+  background-color: rgb(242, 105, 38);
+  border-color: rgb(242, 105, 38);
+  margin: 0.5em 0em 0.5em 1.5em;
+}
+
+#port-details {
+  margin-left: 0.7em;
+}
+
+form {
+  margin: 0 !important;
+  padding: 0 !important;
 }
