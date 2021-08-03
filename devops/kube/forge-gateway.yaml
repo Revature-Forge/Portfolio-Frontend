@@ -24,21 +24,13 @@ spec:
   hosts:
   - "*"
   http:
-  - name: "forge-backend-route"
+  - name: "forge-route"
     match:
     - uri:
-        prefix: "/backend"
+        prefix: "/"
     rewrite:
       uri: "/"
     route:
     - destination:
-        host: t2backend-forge-backend.team2.svc.cluster.local
-  - name: "forge-frontend-route"
-    match:
-    - uri:
-        prefix: "/frontend"
-    rewrite:
-      uri: "/"
-    route:
-    - destination:
-        host: t2frontend-forge-frontend.team2.svc.cluster.local
+        host: t2bundle-forge-cors.team2.svc.cluster.local
+  
