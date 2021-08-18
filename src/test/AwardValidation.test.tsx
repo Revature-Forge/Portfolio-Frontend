@@ -1,4 +1,4 @@
-import awardValidation from "../components/validation/AwardValidation";
+import awardValidation from "../components/Validation/AwardValidation";
 
 let id = "";
 let title = "";

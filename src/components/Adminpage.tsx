@@ -5,7 +5,7 @@ import { Button, Container, Row } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { portfolioUrl } from "../api/api";
 import "../css/HonorAwards.css";
-import PortfolioTable from "./PortfolioTable";
+import PortfolioTable from "./Portfolio/PortfolioList/PortfolioTable";
 import ScrollButton from "./ScrollButton";
 
 const Adminpage = () => {

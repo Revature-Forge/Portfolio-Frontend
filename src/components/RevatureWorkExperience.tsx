@@ -7,9 +7,9 @@ import { Tooltip } from 'reactstrap'
 import axios from 'axios'
 import '../css/RevatureWorkExperience.css'
 import { url } from '../api/api'
-import revWorkExpValidation, { revWorkExpErrors } from './validation/RevatureWorkExpValidation'
-import styleInvalidElements from "./validation/InvalidFormHandling";
-import ValidationMsg from './validation/ValidationMsg';
+import revWorkExpValidation, { revWorkExpErrors } from './Validation/RevatureWorkExpValidation'
+import styleInvalidElements from "./Validation/InvalidFormHandling";
+import ValidationMsg from './Validation/ValidationMsg';
 
 
 const RevatureWorkExperience = () => {

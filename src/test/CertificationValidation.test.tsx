@@ -1,4 +1,4 @@
-import certificationValidation from "../components/validation/CertificationValidation";
+import certificationValidation from "../components/Validation/CertificationValidation";
 
 let portfolio = "";
 let name = "";

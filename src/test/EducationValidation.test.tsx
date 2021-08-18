@@ -1,4 +1,4 @@
-import educationValidation from "../components/validation/EducationValidation";
+import educationValidation from "../components/Validation/EducationValidation";
 
 var university = "";
 var degree = "";

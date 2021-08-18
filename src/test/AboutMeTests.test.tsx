@@ -1,4 +1,4 @@
-import {aboutMeValidateEmail, aboutMeValidateBio, aboutMeValidatePhone} from '../components/validation/AboutMeValidation';
+import {aboutMeValidateEmail, aboutMeValidateBio, aboutMeValidatePhone} from '../components/Validation/AboutMeValidation';
 /**
  * Test file to test the proper functionality of the AboutMe validation
  * and page.

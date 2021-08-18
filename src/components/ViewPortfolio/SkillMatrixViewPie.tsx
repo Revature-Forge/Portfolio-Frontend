@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import "../../css/ViewPortfolio.css";
 import Matrix from "../../interfaces/Matrix";
 import { matrixUrl } from "../../api/api";
-import SkillMatrixPieChart from "../SkillMatrixPieChart";
+import SkillMatrixPieChart from "../SkillMatrix/SkillMatrixPieChart";
 
 const SkillMatrixViewPie = () => {
   const [matrices, setMatrices] = useState<Matrix[]>();

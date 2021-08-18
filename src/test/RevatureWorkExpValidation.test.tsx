@@ -1,5 +1,5 @@
 
-import revWorkExpValidation from "../components/validation/RevatureWorkExpValidation";
+import revWorkExpValidation from "../components/Validation/RevatureWorkExpValidation";
 
 var employer = "";
 var startDate = "";

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import AccountLogin from './AccountLogin';
+import AccountLogin from './Account/AccountLogin';
 import '../css/Landing.css';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AccountRegistration from './AccountRegistration';
+import AccountRegistration from './Account/AccountRegistration';
 import revlogo from '../images/rev-logo.png'
 import { useCookies } from "react-cookie";
 

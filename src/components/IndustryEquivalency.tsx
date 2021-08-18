@@ -8,9 +8,9 @@ import { QuestionCircle, PlusCircle, Pencil, XCircle } from 'react-bootstrap-ico
 import { Tooltip } from 'reactstrap';
 import {url} from "../api/api";
 import {toast} from "react-toastify";
-import industrySkillValidation from './validation/IndustryEquivalencyValidation';
-import styleInvalidElements, { styleInvalidElementsByName } from "./validation/InvalidFormHandling";
-import ValidationMsg from './validation/ValidationMsg'
+import industrySkillValidation from './Validation/IndustryEquivalencyValidation';
+import styleInvalidElements, { styleInvalidElementsByName } from "./Validation/InvalidFormHandling";
+import ValidationMsg from './Validation/ValidationMsg'
 // JSON INTERFACES
 
 /* ------------------------ */

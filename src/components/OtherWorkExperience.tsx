@@ -8,9 +8,9 @@ import { useCookies } from 'react-cookie';
 
 import '../css/OtherWorkExperience.css'
 import { url } from '../api/api';
-import otherWorkExpValidation from './validation/OtherWorkExpValidation';
-import { styleInvalidElementsByNameNotNull } from './validation/InvalidFormHandling';
-import ValidationMsg from './validation/ValidationMsg'
+import otherWorkExpValidation from './Validation/OtherWorkExpValidation';
+import { styleInvalidElementsByNameNotNull } from './Validation/InvalidFormHandling';
+import ValidationMsg from './Validation/ValidationMsg'
 
 const OtherWorkExperience = () => {
     const [cookies] = useCookies();

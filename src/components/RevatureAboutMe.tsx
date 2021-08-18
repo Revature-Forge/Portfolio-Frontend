@@ -7,9 +7,9 @@ import '../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
 import {aboutMeUrl, url} from "../api/api";
-import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./validation/AboutMeValidation";
-import {styleInvalidElementsByName} from "./validation/InvalidFormHandling";
-import ValidationMsg from './validation/ValidationMsg';
+import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./Validation/AboutMeValidation";
+import {styleInvalidElementsByName} from "./Validation/InvalidFormHandling";
+import ValidationMsg from './Validation/ValidationMsg';
 
 const RevatureAboutMe = () => {
     // Model show and hide

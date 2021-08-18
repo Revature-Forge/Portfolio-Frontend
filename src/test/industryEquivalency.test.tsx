@@ -1,4 +1,4 @@
-import industrySkillValidation from "../components/validation/IndustryEquivalencyValidation";
+import industrySkillValidation from "../components/Validation/IndustryEquivalencyValidation";
 
 
 test('ensure industrySkillValidation returns false when SkillName is passed with a falsy parameter', () => {

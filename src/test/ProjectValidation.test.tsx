@@ -1,6 +1,6 @@
 
 //Project imports
-import ProjectValidation from "../components/validation/ProjectValidation";
+import ProjectValidation from "../components/Validation/ProjectValidation";
 
 /*
     Perform the following tests to ensure project validation meets requirements

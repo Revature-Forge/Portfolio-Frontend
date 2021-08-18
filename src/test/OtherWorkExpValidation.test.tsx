@@ -1,7 +1,7 @@
 
 
 //Project imports
-import OtherWorkExpValidation from "../components/validation/OtherWorkExpValidation";
+import OtherWorkExpValidation from "../components/Validation/OtherWorkExpValidation";
 
 /*
     Perform the following tests to ensure project validation meets requirements

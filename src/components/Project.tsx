@@ -6,9 +6,9 @@ import { useCookies } from "react-cookie";
 import { Tooltip } from "reactstrap";
 import { projectUrl } from "../api/api";
 import "../css/Project.css";
-import { styleInvalidElementsByNameNotNull } from "./validation/InvalidFormHandling";
-import ProjectValidation from "./validation/ProjectValidation";
-import ValidationMsg from "./validation/ValidationMsg";
+import { styleInvalidElementsByNameNotNull } from "./Validation/InvalidFormHandling";
+import ProjectValidation from "./Validation/ProjectValidation";
+import ValidationMsg from "./Validation/ValidationMsg";
 
 const Project = () => {
   /**
