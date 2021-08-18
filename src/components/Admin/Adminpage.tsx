@@ -3,10 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import { useCookies } from "react-cookie";
-import { portfolioUrl } from "../api/api";
-import "../css/HonorAwards.css";
-import PortfolioTable from "./Portfolio/PortfolioList/PortfolioTable";
-import ScrollButton from "./ScrollButton";
+import { portfolioUrl } from "../../api/api";
+import "../../css/HonorAwards.css";
+import PortfolioTable from "../Portfolio/PortfolioList/PortfolioTable";
+import ScrollButton from "../ScrollButton";
 
 const Adminpage = () => {
   // state variable for all portfolios

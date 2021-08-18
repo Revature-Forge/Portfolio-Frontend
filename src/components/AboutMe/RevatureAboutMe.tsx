@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { Card, Button, Modal, ModalBody} from 'react-bootstrap';
 import { QuestionCircle, PlusCircle, XCircle, Pencil } from 'react-bootstrap-icons';
 import { Tooltip } from 'reactstrap';
-import '../css/RevatureAboutMe.css';
+import '../../css/RevatureAboutMe.css';
 import axios from 'axios'
 import { useCookies } from 'react-cookie'
-import {aboutMeUrl, url} from "../api/api";
-import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "./Validation/AboutMeValidation";
-import {styleInvalidElementsByName} from "./Validation/InvalidFormHandling";
-import ValidationMsg from './Validation/ValidationMsg';
+import {aboutMeUrl, url} from "../../api/api";
+import {aboutMeValidateBio,aboutMeValidateEmail,aboutMeValidatePhone} from "../Validation/AboutMeValidation";
+import {styleInvalidElementsByName} from "../Validation/InvalidFormHandling";
+import ValidationMsg from '../Validation/ValidationMsg';
 
 const RevatureAboutMe = () => {
     // Model show and hide
