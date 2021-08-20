@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioList.css";
+import LogoutAuth0 from "../../Account/LogoutAuth0";
 import CreatePortfolio from "../PortfolioEdit/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
 
@@ -15,6 +17,9 @@ const PortfolioList = () => {
   const handleShow = () => setShow(true);
   const [cookies, , removeCookie] = useCookies();
   const [table, setTable] = useState<any[]>([]);
+
+  //NOTE. Auth0 section. Getting the user from the Auth0's session.
+  const {user} = useAuth0();
 
   const handleTable = () => {
     axios
@@ -29,10 +34,18 @@ const PortfolioList = () => {
   };
 
   const handleLogOut = () => {
+    try {
+      if (user) {
+        LogoutAuth0();
+      } 
+    } catch (error) {
+      console.log(error)
+    }
     removeCookie("user", { maxAge: 0 });
     if (cookies["portfolio"]) {
       removeCookie("portfolio", { maxAge: 0 });
     }
+
     window.location.pathname = "./";
   };
 
