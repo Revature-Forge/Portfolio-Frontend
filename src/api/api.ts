@@ -1,4 +1,4 @@
-export const url = '/api'
+export const url = 'http://localhost:8081/api'
 
 export const aboutMeUrl = url + "/aboutMe"
 export const portfolioUrl = url + "/portfolios"
@@ -9,3 +9,4 @@ export const workHistoryUrl = url + "/workhistory"
 export const projectUrl = url + "/projects"
 export const workExperienceUrl = url + "/workexperience"
 export const matrixUrl = url + "/matrix"
+export const chartUrl = url + "/adminChart"
