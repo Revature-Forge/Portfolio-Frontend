@@ -3,7 +3,6 @@ import { BrowserRouter } from 'react-router-dom';
 import Layout from './components/Layout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AdminChart from './components/Admin/AdminChart';
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
           <Layout />
         </CookiesProvider>
       </BrowserRouter>
-      <AdminChart></AdminChart>
     </>
   );
 }
