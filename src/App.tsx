@@ -51,19 +51,15 @@ function displayComponent(){
 
   return (
     <>
-
+      <ToastContainer />
+      <BrowserRouter>
+        <CookiesProvider>
+          <Layout />
+        </CookiesProvider>
+      </BrowserRouter>
       {displayComponent()}
     </>
   );
 }
 
 export default App;
-
-
-
-      {/* <ToastContainer />
-      <BrowserRouter>
-        <CookiesProvider>
-          <Layout />
-        </CookiesProvider>
-      </BrowserRouter> */}
