@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioList.css";
-import LogoutAuth0 from "../../Account/LogoutAuth0";
 import CreatePortfolio from "../PortfolioEdit/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
 
@@ -19,7 +18,7 @@ const PortfolioList = () => {
   const [table, setTable] = useState<any[]>([]);
 
   //NOTE. Auth0 section. Getting the user from the Auth0's session.
-  const {user} = useAuth0();
+  const {user, logout: auth0Logout} = useAuth0();
 
   const handleTable = () => {
     axios
@@ -36,7 +35,7 @@ const PortfolioList = () => {
   const handleLogOut = () => {
     try {
       if (user) {
-        LogoutAuth0();
+        auth0Logout();
       } 
     } catch (error) {
       console.log(error)
@@ -46,7 +45,9 @@ const PortfolioList = () => {
       removeCookie("portfolio", { maxAge: 0 });
     }
 
-    window.location.pathname = "./";
+    if (!user) {
+      window.location.pathname = "./";
+    }
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

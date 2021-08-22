@@ -17,12 +17,14 @@ const LoginValidationAuth0 = () => {
     const history = useHistory();
 
     const {user, isAuthenticated} = useAuth0();
-    console.log("Hitting Login Validation Auth0")
-    console.log(user);
+    
     React.useEffect(() => {
         if (!isAuthenticated || !user) {
             // do nothing
         } else {
+            console.log("Hitting Login Validation Auth0")
+            console.log(user);
+            
             let useIDAuth0:any = (user.sub)?.replace("google-oauth2","");
 
             let id:number = Number.parseFloat(useIDAuth0);
@@ -83,12 +85,7 @@ const LoginValidationAuth0 = () => {
                 type="submit" 
                 className="btn btn-primary"
                 onClick={()=>submitAuth0()}
-                >Login Auth0</button>
-            <button 
-                type="submit" 
-                className="btn btn-danger"
-                onClick={()=>logout()}
-                >Logout</button>
+                >Login with Auth0</button>
         </div>
     )
 }
