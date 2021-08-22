@@ -1,59 +1,49 @@
-import React from "react";
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend
-  } from "recharts";
+import axios from "axios";
+import React, { useState } from "react";
+import { chartUrl } from "../../api/api";
+import StackedBarChart, { data } from "./StackedBarChart";
 
-type data = {
-    name:string,
-    approved:number,
-    denied:number
-  }
 
-type Props = {
-    listOfAdmins:data[]
-}
+const AdminChart:React.FC<unknown> = () => {
 
-const AdminChart:React.FC<Props> = (props) => {
+    const [adminData, setList] = useState(Array<data>())
+    const [displayData, setDisplay] = useState(false);
+
+    async function getAdminData() {
+        console.log('before')
+        console.log(adminData);
+        console.log(adminData.length)
+        
+        await axios.post(`${chartUrl}`).then( ({data}) => {
+            let tempData:data[] = adminData;
+            
+            for(let i = 0; i < data.length; i++){
+                tempData.push(data[i])
+            }
+            
+            setList(tempData)
+        })
+
+        console.log('after')
+        console.log(adminData);
+
+        setDisplay(true);
+    }
+
+    function displayComponent(){
+        console.log("display function? " + displayData)
+        if(displayData){
+            return <StackedBarChart listOfAdmins = {adminData}/>
+        }else{
+            getAdminData();
+        }
+    }
 
     return (
         <div>
-           <Chart listOfAdmins= {props.listOfAdmins}></Chart>
+            {displayComponent()}
         </div>
     );
 }
 
 export default AdminChart;
-
-const Chart:React.FC<Props> = (props) =>{
-
-    return(
-        <div>
-            <BarChart
-      width={500}
-      height={300}
-      data={props.listOfAdmins}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="approved" stackId="a" fill="#8884d8" />
-      <Bar dataKey="denied" stackId="a" fill="#82ca9d" />
-      
-    </BarChart>
-        </div>
-    )
-}
