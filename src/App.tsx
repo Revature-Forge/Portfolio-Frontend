@@ -44,22 +44,26 @@ function displayComponent(){
   console.log("display function? " + displayData)
   if(displayData){
     return <AdminChart listOfAdmins = {adminData}/>
+  }else{
+    getAdminData();
   }
 }
 
   return (
     <>
-      {/* <ToastContainer />
-      <BrowserRouter>
-        <CookiesProvider>
-          <Layout />
-        </CookiesProvider>
-      </BrowserRouter> */}
 
-      <button onClick={() => getAdminData()}>Change Data</button>
       {displayComponent()}
     </>
   );
 }
 
 export default App;
+
+
+
+      {/* <ToastContainer />
+      <BrowserRouter>
+        <CookiesProvider>
+          <Layout />
+        </CookiesProvider>
+      </BrowserRouter> */}
