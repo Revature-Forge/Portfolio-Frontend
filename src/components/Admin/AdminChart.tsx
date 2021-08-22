@@ -9,29 +9,25 @@ const AdminChart:React.FC<unknown> = () => {
     const [adminData, setList] = useState(Array<data>())
     const [displayData, setDisplay] = useState(false);
 
+    //Get all of the relevant admin data from the backend API
+    //Store this data in adminData 
+    //Once stored, give the all clear to display the chart by setting displayData to true
     async function getAdminData() {
-        console.log('before')
-        console.log(adminData);
-        console.log(adminData.length)
+        console.log("getting Admin Data for Bar Chart")
         
         await axios.post(`${chartUrl}`).then( ({data}) => {
-            let tempData:data[] = adminData;
-            
-            for(let i = 0; i < data.length; i++){
-                tempData.push(data[i])
-            }
-            
-            setList(tempData)
+            setList(data)
         })
-
-        console.log('after')
-        console.log(adminData);
+        console.log("Obtained Admin data for Bar Chart");
 
         setDisplay(true);
+        console.log("Admin Chart can now display component at will")
     }
 
+    //Prevents StackedBarChart from rendering an empty bar chart and not rerendering once the data is obtained.
+    //Only send the component StackedBarChart once there is data in the state.
     function displayComponent(){
-        console.log("display function? " + displayData)
+        console.log("Should I display function? " + (displayData ? "Yes, I have data." : "No, I do not have any data"))
         if(displayData){
             return <StackedBarChart listOfAdmins = {adminData}/>
         }else{
