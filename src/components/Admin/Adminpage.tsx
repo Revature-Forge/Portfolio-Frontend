@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
@@ -13,7 +14,17 @@ const Adminpage = () => {
   const [portfolios, setPortfolios] = useState<any[]>([]);
   const [cookies, , removeCookie] = useCookies();
 
+    //NOTE. Auth0 section. Getting the user from the Auth0's session.
+    const {user, logout: auth0Logout} = useAuth0();
+
   const handleLogOut = () => {
+    try {
+      if (user) {
+        auth0Logout();
+      } 
+    } catch (error) {
+      console.log(error)
+    }
     removeCookie("user", { maxAge: 0 });
     removeCookie("admin");
     if (cookies["portfolio"]) {
