@@ -20,7 +20,9 @@ const Adminpage = () => {
   const handleLogOut = () => {
     try {
       if (user) {
+        console.log("hitting auth0Logout")
         auth0Logout();
+        console.log("After hitting auth0Logout")
       } 
     } catch (error) {
       console.log(error)
