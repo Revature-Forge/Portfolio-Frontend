@@ -40,8 +40,8 @@ const StackedBarChart:React.FC<Props> = (props) =>{
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="approved" stackId="a" fill="#8884d8" />
-            <Bar dataKey="denied" stackId="a" fill="#82ca9d" />
+            <Bar dataKey="approved" stackId="a" fill="#474C55" />
+            <Bar dataKey="denied" stackId="a" fill="#F26925" />
             
             </BarChart>
     </ResponsiveContainer>
