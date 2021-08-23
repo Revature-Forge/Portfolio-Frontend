@@ -23,7 +23,7 @@ type Props = {
 const StackedBarChart:React.FC<Props> = (props) =>{
 
     return(
-        <ResponsiveContainer width="50%" height="100%">
+        <ResponsiveContainer width="100%" height="100%">
             <BarChart
             width={500}
             height={300}
