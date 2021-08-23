@@ -63,6 +63,7 @@ const ViewPortfolio = () => {
       feedback: cookie.portfolio.feedback,
       flags: data,
       user: cookie.user,
+      admin: cookie.admin
     });
 
     history.push("/admin");
@@ -79,6 +80,7 @@ const ViewPortfolio = () => {
       feedback: null,
       flags: null,
       user: cookie.user,
+      admin: cookie.admin
     });
 
     history.push("/admin");
