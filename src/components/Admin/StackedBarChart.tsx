@@ -41,7 +41,7 @@ const StackedBarChart:React.FC<Props> = (props) =>{
             <Tooltip />
             <Legend />
             <Bar dataKey="approved" stackId="a" fill="#474C55" />
-            <Bar dataKey="denied" stackId="a" fill="#F26925" />
+            <Bar dataKey="denied" stackId="a" fill="#F26925" radius={[10, 10, 0, 0]}/>
             
             </BarChart>
     </ResponsiveContainer>
