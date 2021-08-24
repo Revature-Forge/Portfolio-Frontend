@@ -65,6 +65,7 @@ const ViewPortfolio = () => {
       user: cookie.user,
       submissionTrigger: false,
       reviewTrigger: true,
+      admin: cookie.admin
     });
 
     history.push("/admin");
@@ -83,6 +84,7 @@ const ViewPortfolio = () => {
       user: cookie.user,
       submissionTrigger: false,
       reviewTrigger: true,
+      admin: cookie.admin
     });
 
     history.push("/admin");
