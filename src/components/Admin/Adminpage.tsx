@@ -32,7 +32,9 @@ const Adminpage = () => {
     if (cookies["portfolio"]) {
       removeCookie("portfolio", { maxAge: 0 });
     }
-    window.location.pathname = "./";
+    if (!user) {
+      window.location.pathname = "./";
+    }
   };
 
   // function to fetch all portfolios from back end using axios
