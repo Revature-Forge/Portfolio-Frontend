@@ -32,6 +32,8 @@ const Adminpage = () => {
     if (cookies["portfolio"]) {
       removeCookie("portfolio", { maxAge: 0 });
     }
+
+    //if auth0 user is present, let auth0 do the redirect behavior
     if (!user) {
       window.location.pathname = "./";
     }
