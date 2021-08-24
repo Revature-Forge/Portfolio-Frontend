@@ -23,7 +23,7 @@ type Props = {
 const StackedBarChart:React.FC<Props> = (props) =>{
 
     return(
-        <div>
+        <ResponsiveContainer width="100%" height="100%">
             <BarChart
             width={500}
             height={300}
@@ -44,7 +44,7 @@ const StackedBarChart:React.FC<Props> = (props) =>{
             <Bar dataKey="denied" stackId="a" fill="#F26925" radius={[10, 10, 0, 0]}/>
             
             </BarChart>
-    </div>
+    </ResponsiveContainer>
     )
 }
 
