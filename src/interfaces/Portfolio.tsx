@@ -8,5 +8,6 @@ export default interface Portfolio {
     approved: boolean;
     reviewed: boolean;
     feedback: string;
+    admin?: User;
 }
 
