@@ -2,13 +2,21 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import useForm from './LoginValidationHook';
 import loginValidate from './LoginValidation';
+import loadingGif from '../../images/loading.gif'
+import { useCookies } from 'react-cookie';
+import {useHistory} from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const AccountLogin = () => {
 
-    const {inputs, handleInputChange, handleSubmit, errors} = useForm({email:'', password:''}, loginValidate)
+    const {isError,isLoading,isSuccess,data,inputs, handleInputChange, handleSubmit, errors} = useForm({email:'', password:''}, loginValidate)
 
     const error: {[key: string]: any} = errors
+    const [cookies, setCookies] = useCookies()
+    const history = useHistory();
 
+	
+	
     return (
         <div className="container mt-5">
             <h3>Login</h3>
@@ -27,6 +35,21 @@ const AccountLogin = () => {
                     <button type="submit" className="btn btn-primary">Login</button>
                 </div>
             </form>
+                { isError ? (
+            
+						<> Sorry, an Error has occured. </>
+					) : isSuccess ? (
+						<> 						   
+
+						</>
+					) : isLoading ? (
+						<div className="loading">
+							<img src={loadingGif} alt="loading gif" /> 
+					     </div>
+					): null
+                }
+
+
         </div>
     );
 };

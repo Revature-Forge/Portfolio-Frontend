@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { url } from '../../api/api';
 import { toast } from 'react-toastify';
 import {useHistory} from "react-router-dom";
+import {  useGetLoginMutation  } from "../../services/login"
 
 const useForm = (initialValues: any, loginValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
@@ -11,6 +12,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookies] = useCookies()
     const history = useHistory();
+	const [ getLogin, { data, error,isLoading, isSuccess, isError }  ] = useGetLoginMutation()
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -19,10 +21,22 @@ const useForm = (initialValues: any, loginValidate: any) => {
         setErrors(validationErrors)
         console.log(inputs)
 
-        // NOTES(Nattee): it's probrobly not a good idea to set react toolkit query here, because a check for admin is required, Although it would be nice.
         if (noErrors) {
             let email = inputs.email
             let password = inputs.password
+            getLogin(inputs);
+	if (isSuccess)
+	{
+                    if (data.admin !== true) {
+                        setCookies('user', data, { path: '/' })
+                        history.push("/list")
+                    } else if (data.admin === true) {
+                        setCookies('admin', data, {path: "/"})
+                        history.push("/admin")
+                    }
+	}
+
+            /*
             axios.post(url + '/users/login', null, { headers: { email, password} })
                 .then(response => {
                     if (response.data.admin !== true) {
@@ -35,6 +49,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
                         history.push("/admin")
                     }
                 })
+
                 .catch(error => {
                     if (error.response && error.response.status === 401) {
                         toast.error("Invalid Login Credentials");
@@ -43,6 +58,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
                     }
                     console.log(error.response.status);
                 })
+                */
 
         } else {
             console.log("Errors, please try again", validationErrors)
@@ -58,7 +74,11 @@ const useForm = (initialValues: any, loginValidate: any) => {
         handleSubmit,
         handleInputChange,
         inputs,
-        errors
+        errors,
+        isLoading,
+        isSuccess,
+        isError,
+        data
     }
 
 }
