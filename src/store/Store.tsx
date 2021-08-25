@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import UserReducer, { } from '../features/UserSlice';
+import UserReducer, { userApiSlice } from '../features/UserSlice';
+import IdReducer, { idApiSlice } from '../features/IdReducer'
 
 export const store = configureStore({
     reducer: {
         users: UserReducer,
+        id: IdReducer,
+        [userApiSlice.reducerPath]: userApiSlice.reducer,
+        [idApiSlice.reducerPath]: idApiSlice.reducer,
 
 
     }

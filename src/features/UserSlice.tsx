@@ -58,4 +58,4 @@ export const { useGetUsersQuery, useGetUserByIdQuery } = userApiSlice;
 export default userSlice.reducer;
 export const getUsersSelector = (state: RootState) => state.users;
 
-// export const { setUsers } = userSlice.actions;
+export const { setUsers } = userSlice.actions;
