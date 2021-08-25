@@ -8,6 +8,10 @@ import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioList.css";
 import CreatePortfolio from "../PortfolioEdit/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
+import { useGetPortfolioQuery } from "../../../services/portfolios"
+import loadingGif from '../../../images/loading.gif'
+
+// NOTES(Nattee): Replaced axios with  React tool kit query for better error handling.
 
 const PortfolioList = () => {
   const [show, setShow] = useState(false);
@@ -16,6 +20,8 @@ const PortfolioList = () => {
   const [cookies, , removeCookie] = useCookies();
   const [table, setTable] = useState<any[]>([]);
 
+  const { data, error,isLoading, isSuccess, isError }  = useGetPortfolioQuery(cookies["user"].id);
+/*
   const handleTable = () => {
     axios
       .get(`${portfolioUrl}/users/all/${cookies["user"].id}`)
@@ -27,6 +33,7 @@ const PortfolioList = () => {
         console.log(error);
       });
   };
+  */
 
   const handleLogOut = () => {
     removeCookie("user", { maxAge: 0 });
@@ -115,7 +122,7 @@ const PortfolioList = () => {
   }
 
   useEffect(() => {
-    handleTable();
+   // handleTable();
   }, []);
 
   return (
@@ -140,7 +147,20 @@ const PortfolioList = () => {
       <div className='mt-5'>
         <div className='mt-5' id='showList'>
           <div>
-            <PortfolioListTable portfolios={table} handleTable={handleTable}/>
+			{ isError ? (
+				<>Error: Please check your connection</>
+			  ): isLoading ? (
+				<> 
+					<div className="loading">
+						<img src={loadingGif} alt="loading gif" /> 
+                    </div>
+				</>
+			  ): isSuccess ? (
+				 <>
+				  <PortfolioListTable portfolios={data} handleTable={useGetPortfolioQuery}/>
+				</>
+			  ): null
+			}
           </div>
         </div>
       </div>

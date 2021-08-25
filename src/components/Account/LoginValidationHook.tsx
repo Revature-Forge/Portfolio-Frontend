@@ -5,7 +5,6 @@ import { url } from '../../api/api';
 import { toast } from 'react-toastify';
 import {useHistory} from "react-router-dom";
 
-
 const useForm = (initialValues: any, loginValidate: any) => {
     const [inputs, setInputs] = useState(initialValues)
     const [errors, setErrors] = useState({})
@@ -19,6 +18,8 @@ const useForm = (initialValues: any, loginValidate: any) => {
         const noErrors = Object.keys(validationErrors).length === 0
         setErrors(validationErrors)
         console.log(inputs)
+
+        // NOTES(Nattee): it's probrobly not a good idea to set react toolkit query here, because a check for admin is required, Although it would be nice.
         if (noErrors) {
             let email = inputs.email
             let password = inputs.password

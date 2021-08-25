@@ -1,12 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import validate from './FormValidation';
 import useForm from './ValidationHook';
+import loadingGif from '../../images/loading.gif'
+import {useState} from 'react';
 
 const AccountRegistration = ({ hideModal } : any) => {
 
-    const {inputs, handleInputChange, handleSubmit, errors} = useForm({fname:'', lname:'', email:'', password:'', confirmPassword: ''}, validate, hideModal)
+    const {isError,isLoading,isSuccess,data,inputs, handleInputChange, handleSubmit, errors} = useForm({fname:'', lname:'', email:'', password:'', confirmPassword: ''}, validate, hideModal)
 
     const error: {[key: string]: any} = errors
+
 
     return (
         <div>
@@ -26,7 +29,18 @@ const AccountRegistration = ({ hideModal } : any) => {
                 <h6>Confirm Password</h6>
                 <input type="password" name="confirmPassword" id="confirmPassword" className="form-input" onChange={handleInputChange} value={inputs.confirmPassword} />
                 {error.confirmPassword && <p style={{color:"red"}}>{error.confirmPassword}</p>}
-                <button type="submit" className="btn btn-primary">Register</button>
+                <button type="submit" className="btn btn-primary" >Register</button>
+                { isError ? (
+						<> Sorry, an Error has occured. </>
+					) : isSuccess ? (
+						<> { hideModal()  } </>
+					) : isLoading ? (
+
+						<div className="loading">
+							<img src={loadingGif} alt="loading gif" /> 
+					     </div>
+					): null
+                }
             </form>
         </div>
     );
