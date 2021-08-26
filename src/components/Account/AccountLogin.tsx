@@ -14,8 +14,6 @@ const AccountLogin = () => {
     const error: {[key: string]: any} = errors
     const [cookies, setCookies] = useCookies()
     const history = useHistory();
-
-	
 	
     return (
         <div className="container mt-5">
