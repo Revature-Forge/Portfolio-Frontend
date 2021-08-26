@@ -7,7 +7,7 @@ import { portfolioUrl } from "../../../api/api";
 import DeleteConfirmation from "../PortfolioEdit/DeleteConfirmation";
 import { useHistory } from "react-router-dom";
 
-export const defaultArrows:{[key: string]: string} = {
+export const defaultArrows: { [key: string]: string } = {
   id: "—",
   name: "—",
   submitted: "—",
@@ -78,7 +78,7 @@ function PortfolioListTable(props: any) {
       .catch((error) => {
         toast.error(error.message);
       });
-      setDisplayConfirmationModal(false);
+    setDisplayConfirmationModal(false);
   };
 
   return (
@@ -156,7 +156,7 @@ function PortfolioListTable(props: any) {
           );
         })}
       </tbody>
-      <DeleteConfirmation showModal={displayConfirmationModal} confirmModal={handleDelete} hideModal={hideConfirmationModal} id={id} message={deleteMessage}  />
+      <DeleteConfirmation showModal={displayConfirmationModal} confirmModal={handleDelete} hideModal={hideConfirmationModal} id={id} message={deleteMessage} />
     </Table>
   );
 }
@@ -171,8 +171,8 @@ export function requestSort(
   if (sortConfig.key === key && sortConfig.direction === "ascending") {
     direction = "descending";
   }
-  let newArrows = {...defaultArrows};
-  if (direction==="descending") {
+  let newArrows = { ...defaultArrows };
+  if (direction === "descending") {
     newArrows[key] = "⯆";
   } else if (direction === "ascending") {
     newArrows[key] = "⯅";
