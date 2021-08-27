@@ -11,8 +11,25 @@ const useForm = (initialValues: any, loginValidate: any) => {
     const [errors, setErrors] = useState({})
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [cookies, setCookies] = useCookies()
+    const [hasClick, setHasClick] = useState(false);
     const history = useHistory();
 	const [ getLogin, { data, error,isLoading, isSuccess, isError }  ] = useGetLoginMutation()
+
+		if (hasClick)
+		{
+			if (isSuccess)
+			{
+				if (data.admin !== true) {
+					setCookies('user', data, { path: '/' })
+					history.push("/list")
+				} else if (data.admin === true) {
+					setCookies('admin', data, {path: "/"})
+					history.push("/admin")
+				}
+				setHasClick(false);
+			}
+		}
+
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -25,16 +42,7 @@ const useForm = (initialValues: any, loginValidate: any) => {
             let email = inputs.email
             let password = inputs.password
             getLogin(inputs);
-	if (isSuccess)
-	{
-                    if (data.admin !== true) {
-                        setCookies('user', data, { path: '/' })
-                        history.push("/list")
-                    } else if (data.admin === true) {
-                        setCookies('admin', data, {path: "/"})
-                        history.push("/admin")
-                    }
-	}
+			setHasClick(true);
 
             /*
             axios.post(url + '/users/login', null, { headers: { email, password} })

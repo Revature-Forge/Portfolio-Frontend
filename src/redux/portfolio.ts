@@ -3,17 +3,37 @@ import { createSlice } from "@reduxjs/toolkit"
 export const portfolioSlice  = createSlice({
 	name: "portfolio",
 	initialState:  {
-		portfolio: []
+		id: 0,
+		name: "",
+		user: {
+
+		},
+		submitted: false,
+		approved: false,
+		reviewed: false,
+		feedback: "",
+		flags: { },
+		aboutme: {
+		},
+		Certification: [],
+		Education: [],
+		equivalencies: [],
+		github: [],
+		honors: [],
+		workExperiences: [],
+		workHistories: [],
+		matrices: []
 	}
 	,
 	reducers: {
-		addPortfolio:(state, action) => {
-			state.portfolio.concat(action.payload)
+		setPortfolio:(state, action) => {
+			state= action.payload;
 		}
+			
 	}
 });
 
-export const { addPortfolio } = portfolioSlice.actions;
+export const { setPortfolio } = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;
 	

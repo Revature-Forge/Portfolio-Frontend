@@ -31,18 +31,23 @@ import AboutMe from "../../AboutMe/RevatureAboutMe";
 import RevatureWorkExp from "../../RevatureWorkExp/RevatureWorkExperience";
 import ScrollButton from "../../ScrollButton";
 
+import { useDispatch,useSelector } from "react-redux"
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
 import SkillMatrixContainer from "../../SkillMatrix/SkillMatrixContainer";
+import { setPortfolio } from "../../../redux/portfolio";
 
 const EditEmpPortfolio = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const history = useHistory();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [feedbackToastsThrown, updateFeedbackToastsThrown] = useState(false);
+  const  aboutME = useSelector( (state) => state)
+  const dispatch = useDispatch();
+
   let savedFlags = {
     aboutMe: "",
     certification: "",
@@ -72,13 +77,11 @@ const EditEmpPortfolio = () => {
     axios
       .get(educationUrl + "/portfolio/all/" + cookies["portfolio"].id)
       .then((response) => setEducations(response.data));
-
     //grab about me info
     axios
       .get(aboutMeUrl + "/portfolio/" + cookies["portfolio"].id)
       .then((response) => setAboutMe(response.data));
-
-    //grab project info
+	  //grab project info
     axios
       .get(projectUrl + "/portfolio/all/" + cookies["portfolio"].id)
       .then((response) => setProjects(response.data));
@@ -98,6 +101,8 @@ const EditEmpPortfolio = () => {
       updateFeedbackToastsThrown(true);
     }
   }, []);
+
+
   
   const checkForFeedback = () => {
     if (savedFlags.aboutMe) {
