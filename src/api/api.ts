@@ -1,5 +1,6 @@
 export const url = 'http://localhost:8081/api'
 
+
 export const aboutMeUrl = url + "/aboutMe"
 export const portfolioUrl = url + "/portfolios"
 export const educationUrl = url + "/education"

@@ -150,6 +150,7 @@ const EditEmpPortfolio = () => {
     let obj = {
       ...cookies["portfolio"],
       submitted: true,
+      submissionTrigger: true,
     };
     console.log(obj);
 
