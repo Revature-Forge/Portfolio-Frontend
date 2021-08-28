@@ -42,7 +42,7 @@ const PortfolioList = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error");
       });
   };
 
@@ -133,7 +133,7 @@ const PortfolioList = () => {
   }
 
   useEffect(() => {
-    handleTable();
+    // handleTable();
   }, []);
 
   return (

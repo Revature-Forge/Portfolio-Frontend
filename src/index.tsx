@@ -6,8 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { Front } from 'react-bootstrap-icons';
 import { store } from './store/Store';
+import { loadState, saveState } from './store/LocalStorage'
 
-
+store.subscribe(() => {
+  saveState(store.getState());
+})
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store} >

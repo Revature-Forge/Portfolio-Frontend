@@ -10,11 +10,11 @@ import ScrollButton from "../ScrollButton";
 import { useAppSelector, useAppDispatch } from '../../store/Hooks'
 import { setUsers, useGetUserByIdQuery } from '../../features/UserSlice';
 
-
 const Adminpage = () => {
   // state variable for all portfolios
   const [portfolios, setPortfolios] = useState<any[]>([]);
-  const [cookies, , removeCookie] = useCookies(); const dispatch = useAppDispatch();
+  const [cookies, , removeCookie] = useCookies();
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state: any) => state.id.user);
   let id = user.id;
   let userId: number;
@@ -25,7 +25,7 @@ const Adminpage = () => {
     }
     const { data, isLoading } = useGetUserByIdQuery(userId);
     let users = data;
-    dispatch(setUsers(users))
+    dispatch(setUsers(users));
   }
   SetAdminRedux();
 

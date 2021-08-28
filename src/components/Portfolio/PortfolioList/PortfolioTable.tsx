@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioTable.css";
@@ -12,6 +13,7 @@ function PortfolioTable(props: any) {
   const [sortConfig, setSortConfig]: any = useState("approved");
 
   const [directionArrows, setDirections] = useState(defaultArrows);
+  let history = useHistory();
 
   let { portfolios } = props;
   let sortedPortfolios = [...portfolios];
@@ -36,7 +38,9 @@ function PortfolioTable(props: any) {
       .get(`${portfolioUrl}/${id}`)
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
-        window.location.pathname = pathname;
+        // <Link to={pathname} />
+        history.push("/view")
+        // window.location.pathname = pathname;
       })
       .catch((error) => {
         toast.error(error.message);
