@@ -23,7 +23,7 @@ import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView";
 import SkillMatrixView from "./SkillMatrixView";
 import SkillMatrixViewPie from "./SkillMatrixViewPie";
-import { useAppSelector, useAppDispatch } from '../../store/Hooks';
+import { useAppDispatch } from '../../store/Hooks';
 import { setFullPortfolio } from '../../features/FullPortfolioSlice';
 
 
@@ -40,7 +40,6 @@ type FeedbackData = {
 };
 
 const ViewPortfolio = () => {
-  // const dispatch = useAppDispatch();
   const [cookie, , removeCookie] = useCookies();
   const [pathname, setPath] = useState("/list");
   const [isAdmin, setAdmin] = useState(false);
@@ -114,7 +113,6 @@ const ViewPortfolio = () => {
     axios
       .get(url + `/portfolios/${cookie["portfolio"].id}`)
       .then((response) => {
-        // console.log(response);
         // dispatch(setFullPortfolio({fullPortfolio: response.data }));
         if (response.data.flags) {
           console.log(response.data.flags);

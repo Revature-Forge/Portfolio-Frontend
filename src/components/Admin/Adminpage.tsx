@@ -27,7 +27,7 @@ const Adminpage = () => {
     let users = data;
     dispatch(setUsers(users));
   }
-  SetAdminRedux();
+  // SetAdminRedux();
 
   const handleLogOut = () => {
     removeCookie("user", { maxAge: 0 });
@@ -43,7 +43,6 @@ const Adminpage = () => {
   const getData = async () => {
     axios.get(portfolioUrl).then((response) => {
       setPortfolios(response.data);
-      console.log(response.data);
     });
   };
 

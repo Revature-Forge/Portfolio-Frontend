@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useCookies } from "react-cookie";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioTable.css";
