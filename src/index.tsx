@@ -6,13 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Provider } from 'react-redux';
 import { store } from './store/Store';
-import { loadState, saveState } from './store/LocalStorage'
 import { Front } from 'react-bootstrap-icons';
-
-store.subscribe(() => {
-  saveState(store.getState());
-})
-
 
 //install npm i @auth0/auth0-react
 const domain: any = process.env.REACT_APP_AUTH0_DOMAIN;

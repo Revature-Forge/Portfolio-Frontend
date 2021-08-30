@@ -27,7 +27,7 @@ export const initialState: userState = {
 }
 
 export const userSlice = createSlice({
-    name: "uss",
+    name: "users",
     initialState,
     reducers: {
         setUsers(state, action: PayloadAction<userState | any>) {
@@ -50,12 +50,7 @@ export const userApiSlice = createApi({
     }),
 })
 
-
-
-
-
 export const { useGetUsersQuery, useGetUserByIdQuery } = userApiSlice;
 export default userSlice.reducer;
 export const getUsersSelector = (state: RootState) => state.users;
-
 export const { setUsers } = userSlice.actions;

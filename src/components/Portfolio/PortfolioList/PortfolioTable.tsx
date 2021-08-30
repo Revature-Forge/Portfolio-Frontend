@@ -38,9 +38,7 @@ function PortfolioTable(props: any) {
       .get(`${portfolioUrl}/${id}`)
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
-        // <Link to={pathname} />
         history.push("/view")
-        // window.location.pathname = pathname;
       })
       .catch((error) => {
         toast.error(error.message);

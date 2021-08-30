@@ -1,9 +1,4 @@
 import Portfolio from '../interfaces/Portfolio';
-import User from '../interfaces/User';
-import { useSelector } from "react-redux";
-// import { useAppSelector } from '../store/Hooks';
-import { userState, } from '../features/UserSlice';
-// import { createSlice } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 
@@ -26,14 +21,6 @@ const initialState: Portfolio = {
 }
 
 const URL = "http://localhost:8081/api";
-
-// const portfolioSlice = createSlice({
-// name:"portfolio",
-// initialState,
-// reducers:{
-//     setPortfolio(state,action)
-// }
-// })
 
 export const portfolioApiSlice = createApi({
     reducerPath: 'portfolioApiSlice',
