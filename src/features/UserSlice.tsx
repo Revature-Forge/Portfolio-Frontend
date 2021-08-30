@@ -15,7 +15,7 @@ export interface userState {
     }
 }
 
-const initialState: userState = {
+export const initialState: userState = {
     user: {
         id: 0,
         email: "",
@@ -50,12 +50,7 @@ export const userApiSlice = createApi({
     }),
 })
 
-
-
-
-
 export const { useGetUsersQuery, useGetUserByIdQuery } = userApiSlice;
 export default userSlice.reducer;
 export const getUsersSelector = (state: RootState) => state.users;
-
 export const { setUsers } = userSlice.actions;

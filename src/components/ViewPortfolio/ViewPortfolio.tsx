@@ -23,6 +23,10 @@ import ProjectView from "./ProjectView";
 import RevatureWorkExperienceView from "./RevatureWorkExperienceView";
 import SkillMatrixView from "./SkillMatrixView";
 import SkillMatrixViewPie from "./SkillMatrixViewPie";
+import { useAppDispatch } from '../../store/Hooks';
+import { setFullPortfolio } from '../../features/FullPortfolioSlice';
+
+
 
 type FeedbackData = {
   industryEquivalence: string;
@@ -51,7 +55,11 @@ const ViewPortfolio = () => {
     skillMatrices: "",
   });
 
+
   let history = useHistory();
+  const dispatch = useAppDispatch();
+
+
 
   const onReject = handleSubmit((data) => {
     axios.post(`${portfolioUrl}/${cookie.portfolio.id}`, {
@@ -63,8 +71,6 @@ const ViewPortfolio = () => {
       feedback: cookie.portfolio.feedback,
       flags: data,
       user: cookie.user,
-      submissionTrigger: false,
-      reviewTrigger: true,
       admin: cookie.admin
     });
 
@@ -82,8 +88,6 @@ const ViewPortfolio = () => {
       feedback: null,
       flags: null,
       user: cookie.user,
-      submissionTrigger: false,
-      reviewTrigger: true,
       admin: cookie.admin
     });
 
@@ -105,15 +109,24 @@ const ViewPortfolio = () => {
   }
 
   useEffect(() => {
+
     axios
       .get(url + `/portfolios/${cookie["portfolio"].id}`)
       .then((response) => {
+        // dispatch(setFullPortfolio({fullPortfolio: response.data }));
         if (response.data.flags) {
           console.log(response.data.flags);
           setSavedFlags(response.data.flags);
         } else {
           console.log("No flags");
         }
+      });
+
+    axios
+      .get(url + `/portfolios/full/${cookie["portfolio"].id}`)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setFullPortfolio({ fullPortfolio: res.data }));
       });
   }, []);
 

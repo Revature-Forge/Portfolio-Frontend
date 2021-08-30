@@ -33,17 +33,15 @@ const PortfolioList = () => {
     let users = data;
     dispatch(setUsers(users))
   }
-  SetUserRedux();
 
   //NOTE. Auth0 section. Getting the user from the Auth0's session.
-  const {user: userA0, logout: auth0Logout} = useAuth0();
+  const { user: userA0, logout: auth0Logout } = useAuth0();
 
   const handleTable = () => {
     axios
       .get(`${portfolioUrl}/users/all/${cookies["user"].id}`)
       .then((response) => {
         setTable(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -54,7 +52,7 @@ const PortfolioList = () => {
     try {
       if (userA0) {
         auth0Logout();
-      } 
+      }
     } catch (error) {
       console.log(error)
     }

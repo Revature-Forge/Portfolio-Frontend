@@ -9,15 +9,15 @@ import { store } from './store/Store';
 import { Front } from 'react-bootstrap-icons';
 
 //install npm i @auth0/auth0-react
-const domain:any = process.env.REACT_APP_AUTH0_DOMAIN;
-const clientId:any = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const domain: any = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId: any = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-    domain={domain}
-    clientId={clientId}
-    redirectUri={window.location.origin}>
+      domain={domain}
+      clientId={clientId}
+      redirectUri={window.location.origin}>
       <Provider store={store} >
         <App />
       </Provider>

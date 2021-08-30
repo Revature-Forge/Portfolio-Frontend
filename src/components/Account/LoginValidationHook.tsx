@@ -33,14 +33,12 @@ const useForm = (initialValues: any, loginValidate: any) => {
                         setCookies('user', response.data, { path: '/' })
                         toast.success(("Login was successful. Welcome " + response.data.fname + " " + response.data.lname))
                         history.push("/list")
-                        console.log(response.data.id);
-                        dispatch(setId({ id: response.data.id }))
+                        dispatch(setUsers({ user: response.data }))
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, { path: "/" })
                         toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.lname))
                         history.push("/admin")
-                        console.log(response.data.id);
-                        dispatch(setId({ id: response.data.id }))
+                        dispatch(setUsers({ user: response.data }))
                     }
                 })
                 .catch(error => {
