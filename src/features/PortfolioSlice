@@ -1,0 +1,21 @@
+import Portfolio from '../interfaces/Portfolio';
+import User from '../interfaces/User';
+
+const User1: User = {
+    id= 0,
+    name= "string",
+    password= "string",
+    admin= false
+};
+
+
+const Portfolio: Portfolio = {
+    id: 0,
+    name: "string",
+    user: User1,
+    submitted: false,
+    approved: false,
+    reviewed: false,
+    feedback: "string",
+    admin: User1
+}

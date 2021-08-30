@@ -9,6 +9,10 @@ import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioList.css";
 import CreatePortfolio from "../PortfolioEdit/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
+// import { setUsers, useGetUserByIdQuery } from '../../../features/UserReducer';
+import { useAppSelector, useAppDispatch } from '../../../store/Hooks'
+import { setUsers, useGetUserByIdQuery } from '../../../features/UserSlice';
+
 
 const PortfolioList = () => {
   const [show, setShow] = useState(false);
@@ -16,9 +20,23 @@ const PortfolioList = () => {
   const handleShow = () => setShow(true);
   const [cookies, , removeCookie] = useCookies();
   const [table, setTable] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: any) => state.id.user);
+  let id = user.id;
+  let userId: number;
+
+  const SetUserRedux = () => {
+    if (id !== 0 || id !== null) {
+      userId = user.id;
+    }
+    const { data, isLoading } = useGetUserByIdQuery(userId);
+    let users = data;
+    dispatch(setUsers(users))
+  }
+  SetUserRedux();
 
   //NOTE. Auth0 section. Getting the user from the Auth0's session.
-  const {user, logout: auth0Logout} = useAuth0();
+  const {user: userA0, logout: auth0Logout} = useAuth0();
 
   const handleTable = () => {
     axios
@@ -34,7 +52,7 @@ const PortfolioList = () => {
 
   const handleLogOut = () => {
     try {
-      if (user) {
+      if (userA0) {
         auth0Logout();
       } 
     } catch (error) {
@@ -46,7 +64,7 @@ const PortfolioList = () => {
     }
 
     //if auth0 user is present, let auth0 do the redirect behavior
-    if (!user) {
+    if (!userA0) {
       window.location.pathname = "./";
     }
   };
@@ -155,7 +173,7 @@ const PortfolioList = () => {
       <div className='mt-5'>
         <div className='mt-5' id='showList'>
           <div>
-            <PortfolioListTable portfolios={table} handleTable={handleTable}/>
+            <PortfolioListTable portfolios={table} handleTable={handleTable} />
           </div>
         </div>
       </div>

@@ -12,7 +12,6 @@ const LoginValidationAuth0 = () => {
 
     //NOTE. Auth0Provider
     const {loginWithRedirect} = useAuth0();
-    const {logout} = useAuth0();
     const [cookies, setCookies]  = useCookies(undefined)
     const history = useHistory();
 
@@ -21,19 +20,8 @@ const LoginValidationAuth0 = () => {
     React.useEffect(() => {
         if (!isAuthenticated || !user) {
             // do nothing
-        } else {
-            console.log("Hitting Login Validation Auth0")
-            console.log(user);
-            // console.log(`Checking status of account: ${user.user_metadata.admin}`)
-            
+        } else {         
             let useIDAuth0:any = (user.sub)?.replace("google-oauth2","");
-            let adminStatus:boolean;
-
-            // if (user.user_metadata.admin === true) {
-            //     adminStatus = true;
-            // } else {
-            //     adminStatus = false;
-            // }
 
             let id:number = Number.parseFloat(useIDAuth0);
             const convertedUser:User = new User(
