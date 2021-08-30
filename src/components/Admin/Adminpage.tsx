@@ -28,10 +28,9 @@ const Adminpage = () => {
     let users = data;
     dispatch(setUsers(users));
   }
-  // SetAdminRedux();
 
-    //NOTE. Auth0 section. Getting the user from the Auth0's session.
-    const {user : userA0, logout: auth0Logout} = useAuth0();
+  //NOTE. Auth0 section. Getting the user from the Auth0's session.
+  const { user: userA0, logout: auth0Logout } = useAuth0();
 
   const handleLogOut = () => {
     try {
@@ -39,7 +38,7 @@ const Adminpage = () => {
         console.log("hitting auth0Logout")
         auth0Logout();
         console.log("After hitting auth0Logout")
-      } 
+      }
     } catch (error) {
       console.log(error)
     }
