@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import UserReducer, { userApiSlice } from '../features/UserSlice';
 import IdReducer, { idApiSlice } from '../features/IdReducer'
-import { portfolioApiSlice } from '../features/PortfolioSlice';
 import FullPortfolioReducer from '../features/FullPortfolioSlice';
 
 export const store = configureStore({
@@ -11,7 +10,6 @@ export const store = configureStore({
         fullPortfolio: FullPortfolioReducer,
         [userApiSlice.reducerPath]: userApiSlice.reducer,
         [idApiSlice.reducerPath]: idApiSlice.reducer,
-        [portfolioApiSlice.reducerPath]: portfolioApiSlice.reducer,
 
     }
 })
