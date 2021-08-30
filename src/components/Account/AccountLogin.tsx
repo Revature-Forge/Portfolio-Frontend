@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import useForm from './LoginValidationHook';
 import loginValidate from './LoginValidation';
+import LoginValidationAuth0 from './LoginValidationAuth0';
 
 const AccountLogin = () => {
 
@@ -23,8 +24,14 @@ const AccountLogin = () => {
                     <input type="password" className="form-control" name="password" id="password" onChange={handleInputChange} value={inputs.password} />
                     {error.password && <p style={{color:"red"}}>{error.password}</p>}
                 </div>
-                <div className="mb-3 col-md-4">
-                    <button type="submit" className="btn btn-primary">Login</button>
+                <div className="row">
+                    <div className="mb-3 col-md-2">
+                        <button type="submit" className="btn btn-primary">Login</button>
+                    </div>
+                    <div className="mb-3 col-md-5">
+                        <LoginValidationAuth0 />
+                    </div>
+                    
                 </div>
             </form>
         </div>
