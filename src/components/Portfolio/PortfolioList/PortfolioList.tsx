@@ -134,7 +134,7 @@ const PortfolioList = () => {
   }
 
   useEffect(() => {
-    // handleTable();
+    handleTable();
   }, []);
 
   return (
