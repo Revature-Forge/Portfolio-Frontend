@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
+import { WindowSidebar } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../../api/api";
@@ -43,6 +44,11 @@ function PortfolioTable(props: any) {
       });
   };
 
+  const reportPage = (): void => {
+    let pahtname = "./portfoliodetails";
+    window.location.pathname = pahtname;
+  }
+
   return (
     <Table style={{ margin: "10px" }} striped table-bordered hover>
       <thead>
@@ -59,7 +65,14 @@ function PortfolioTable(props: any) {
           <th onClick={() => requestSort("reviewed", sortConfig, setDirections, setSortConfig)}>
             Review Status {directionArrows.reviewed}
           </th>
-          <th></th>
+          <th>
+            <button className="btn btn-primary" onClick={() => reportPage()}> 
+            Admin report pege
+             </button>
+          </th>
+          <th>
+
+          </th>
         </tr>
       </thead>
       <tbody>

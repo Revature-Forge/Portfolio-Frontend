@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../api/api";
+import AdminChart from "../Admin/AdminChart";
 import "../../css/HonorAwards.css";
 
 const Portfoliodetails = (props: any) => {
@@ -145,6 +146,7 @@ const Portfoliodetails = (props: any) => {
           </Row>
         </Container>
       </form>
+
     </div>
   );
 };
