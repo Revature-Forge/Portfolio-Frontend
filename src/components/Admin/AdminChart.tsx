@@ -46,6 +46,7 @@ const AdminChart:React.FC<unknown> = () => {
     return (
         <div style = {{'height':300}}>
             {displayComponent()}
+            
         </div>
     );
 }

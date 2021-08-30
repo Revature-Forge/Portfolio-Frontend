@@ -8,5 +8,5 @@ return (
         <AdminChart/>
     </div>
 )
-
 }
+export default adminReportPage;

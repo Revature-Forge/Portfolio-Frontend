@@ -6,6 +6,7 @@ import EditEmpPortfolio from './Portfolio/PortfolioEdit/EditEmpPortfolio';
 import PortfolioList from "./Portfolio/PortfolioList/PortfolioList";
 import Adminpage from "./Admin/Adminpage";
 import Portfoliodetails from "./Portfolio/Portfoliodetails";
+import AdminReportPage from "./Admin/AdminReportPage";
 
 function Layout() {
     return (
@@ -17,6 +18,7 @@ function Layout() {
           <Route path="/list" component={PortfolioList} />
           <Route path="/admin" component={Adminpage} />
           <Route path="/portfoliodetails" component={Portfoliodetails} />
+          <Route path="/AdminReportPage" component={AdminReportPage} />
  
         </div>
           

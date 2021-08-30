@@ -45,7 +45,7 @@ function PortfolioTable(props: any) {
   };
 
   const reportPage = (): void => {
-    let pahtname = "./portfoliodetails";
+    let pahtname = "./AdminReportPage";
     window.location.pathname = pahtname;
   }
 
@@ -67,7 +67,7 @@ function PortfolioTable(props: any) {
           </th>
           <th>
             <button className="btn btn-primary" onClick={() => reportPage()}> 
-            Admin report pege
+            Admin report page
              </button>
           </th>
           <th>
