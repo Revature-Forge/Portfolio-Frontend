@@ -13,10 +13,7 @@ const adminReportPage = (props: any) => {
 return (
     <div>
         <div>
-            Name of admin: 
-        </div>
-        <div>
-            Average response time for the portfolios
+            Average response time for the portfolios:
         </div>
         <AdminChart/>
         <div> </div>
