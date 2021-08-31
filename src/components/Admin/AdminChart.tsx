@@ -37,6 +37,7 @@ const AdminChart:React.FC<unknown> = () => {
     //Prevents StackedBarChart from rendering an empty bar chart and not rerendering once the data is obtained.
     //Only send the component StackedBarChart once there is data in the state.
     function displayComponent(){
+        getAdminData();
         console.log("Should I display the Bar Chart? " + (displayData ? "Yes, I have data." : "No, I do not have any data yet"))
         if(displayData){
             return <StackedBarChart listOfAdmins = {adminData}/>
@@ -46,7 +47,6 @@ const AdminChart:React.FC<unknown> = () => {
     return (
         <div style = {{'height':300}}>
             {displayComponent()}
-            
         </div>
     );
 }
