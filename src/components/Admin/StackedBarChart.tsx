@@ -14,7 +14,8 @@ export type data = {
     name:string,
     approved:number,
     denied:number,
-    responseTime: number
+    responseTime: number,
+    responseTimeString: string
   }
 
 type Props = {

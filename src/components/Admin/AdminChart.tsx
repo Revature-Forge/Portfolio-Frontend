@@ -6,7 +6,7 @@ import { chartUrl } from "../../api/api";
 import StackedBarChart, { data } from "./StackedBarChart";
 
 
-const AdminChart:React.FC<unknown> = () => {
+const AdminChart: React.FC<unknown> = () => {
 
     const [adminData, setList] = useState(Array<data>())
     const [, setCookie] = useCookies();
@@ -18,46 +18,50 @@ const AdminChart:React.FC<unknown> = () => {
     //Once stored, give the all clear to display the chart by setting displayData to true
     async function getAdminData() {
         console.log("getting Admin Data for Bar Chart")
-        
-        await axios.post(`${chartUrl}`).then( ({data}) => {
+
+        await axios.get(`${chartUrl}`).then(({ data }) => {
             setList(data)
             console.log("checking Data")
             console.log(data)
             console.log(data.status)
         })
         console.log("Obtained Admin data for Bar Chart");
-        
-        
+
+
         console.log("Admin Chart can now display component at will")
         setDisplay(true);
     }
 
     useEffect(() => {
-        if(!gettingAdminData && !displayData){
+        if (!gettingAdminData && !displayData) {
             setGettingAdminData(true);
             getAdminData();
         }
     })
 
-    function returnData(){
-        return {adminData}
+    function returnData() {
+        return { adminData }
     }
 
     //Prevents StackedBarChart from rendering an empty bar chart and not rerendering once the data is obtained.
     //Only send the component StackedBarChart once there is data in the state.
-    function displayComponent(){
+    function displayComponent() {
         console.log("check1")
         console.log(displayData)
-        if(displayData){
-            return <StackedBarChart listOfAdmins = {adminData}/>
+        if (displayData) {
+            return <StackedBarChart listOfAdmins={adminData} />
         }
         console.log("Should I display the Bar Chart? " + (displayData ? "Yes, I have data." : "No, I do not have any data yet"))
     }
 
     return (
-        <div style = {{'height':300}}>
-            {displayComponent()}
+        <div>
+            {displayData ? adminData[0].responseTimeString : null}
+            <div style={{ 'height': 300 }}>
+                {displayComponent()}
+            </div>
         </div>
+
     );
 }
 
