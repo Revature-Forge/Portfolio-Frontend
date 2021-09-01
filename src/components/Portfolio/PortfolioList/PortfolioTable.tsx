@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
+import { WindowSidebar } from "react-bootstrap-icons";
 import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioTable.css";
@@ -12,6 +14,7 @@ function PortfolioTable(props: any) {
   const [sortConfig, setSortConfig]: any = useState("approved");
 
   const [directionArrows, setDirections] = useState(defaultArrows);
+  let history = useHistory();
 
   let { portfolios } = props;
   let sortedPortfolios = [...portfolios];
@@ -36,12 +39,17 @@ function PortfolioTable(props: any) {
       .get(`${portfolioUrl}/${id}`)
       .then((response) => {
         setCookie("portfolio", response.data, { path: "/" });
-        window.location.pathname = pathname;
+        history.push("/view")
       })
       .catch((error) => {
         toast.error(error.message);
       });
   };
+
+  const reportPage = (): void => {
+    let pahtname = "./AdminReportPage";
+    window.location.pathname = pahtname;
+  }
 
   return (
     <Table style={{ margin: "10px" }} striped table-bordered hover>
@@ -59,7 +67,14 @@ function PortfolioTable(props: any) {
           <th onClick={() => requestSort("reviewed", sortConfig, setDirections, setSortConfig)}>
             Review Status {directionArrows.reviewed}
           </th>
-          <th></th>
+          <th>
+            <button className="btn btn-primary" onClick={() => reportPage()}> 
+            Admin report page
+             </button>
+          </th>
+          <th>
+
+          </th>
         </tr>
       </thead>
       <tbody>

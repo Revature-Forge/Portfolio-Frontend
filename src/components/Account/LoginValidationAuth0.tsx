@@ -5,7 +5,9 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { url } from "../../api/api";
+import { setUsers } from "../../features/UserSlice";
 import User from "../../models/User";
+import { useAppDispatch } from "../../store/Hooks";
 
 
 const LoginValidationAuth0 = () => {
@@ -14,6 +16,7 @@ const LoginValidationAuth0 = () => {
     const {loginWithRedirect} = useAuth0();
     const [cookies, setCookies]  = useCookies(undefined)
     const history = useHistory();
+    const dispatch = useAppDispatch();
 
     const {user, isAuthenticated} = useAuth0();
     
@@ -43,17 +46,18 @@ const LoginValidationAuth0 = () => {
                     if(response.data) {
                         console.log(`got response data`)
                         console.log(response.data)
-
                     }
 
                     if (response.data.admin !== true) {
                         setCookies('user', response.data, { path: '/' })
                         toast.success(("Login was successful. Welcome " + response.data.fname + " " + response.data.lname))
                         history.push("/list")
+                        dispatch(setUsers({ user: response.data }))
                     } else if (response.data.admin === true) {
                         setCookies('admin', response.data, {path: "/"})
                         toast.success(("Admin login was successful. Welcome " + response.data.fname + " " + response.data.lname))
                         history.push("/admin")
+                        dispatch(setUsers({ user: response.data }))
                     }
                 })
                 .catch(error => {
