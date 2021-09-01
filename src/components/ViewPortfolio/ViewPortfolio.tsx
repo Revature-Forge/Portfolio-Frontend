@@ -63,6 +63,8 @@ const ViewPortfolio = () => {
       feedback: cookie.portfolio.feedback,
       flags: data,
       user: cookie.user,
+      submissionTrigger: true,
+      reviewTrigger: true,
       admin: cookie.admin
     });
 
@@ -80,6 +82,8 @@ const ViewPortfolio = () => {
       feedback: null,
       flags: null,
       user: cookie.user,
+      submissionTrigger: false,
+      reviewTrigger: true,
       admin: cookie.admin
     });
 
