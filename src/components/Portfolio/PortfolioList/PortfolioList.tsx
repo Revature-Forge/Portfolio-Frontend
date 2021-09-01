@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
@@ -8,6 +9,10 @@ import { portfolioUrl } from "../../../api/api";
 import "../../../css/PortfolioList.css";
 import CreatePortfolio from "../PortfolioEdit/CreatePortfolio";
 import PortfolioListTable from "./PortfolioListTable";
+// import { setUsers, useGetUserByIdQuery } from '../../../features/UserReducer';
+import { useAppSelector, useAppDispatch } from '../../../store/Hooks'
+import { setUsers, useGetUserByIdQuery } from '../../../features/UserSlice';
+
 
 const PortfolioList = () => {
   const [show, setShow] = useState(false);
@@ -15,13 +20,28 @@ const PortfolioList = () => {
   const handleShow = () => setShow(true);
   const [cookies, , removeCookie] = useCookies();
   const [table, setTable] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: any) => state.id.user);
+  let id = user.id;
+  let userId: number;
+
+  const SetUserRedux = () => {
+    if (id !== 0 || id !== null) {
+      userId = user.id;
+    }
+    const { data, isLoading } = useGetUserByIdQuery(userId);
+    let users = data;
+    dispatch(setUsers(users))
+  }
+
+  //NOTE. Auth0 section. Getting the user from the Auth0's session.
+  const { user: userA0, logout: auth0Logout } = useAuth0();
 
   const handleTable = () => {
     axios
       .get(`${portfolioUrl}/users/all/${cookies["user"].id}`)
       .then((response) => {
         setTable(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -29,11 +49,22 @@ const PortfolioList = () => {
   };
 
   const handleLogOut = () => {
+    try {
+      if (userA0) {
+        auth0Logout();
+      }
+    } catch (error) {
+      console.log(error)
+    }
     removeCookie("user", { maxAge: 0 });
     if (cookies["portfolio"]) {
       removeCookie("portfolio", { maxAge: 0 });
     }
-    window.location.pathname = "./";
+
+    //if auth0 user is present, let auth0 do the redirect behavior
+    if (!userA0) {
+      window.location.pathname = "./";
+    }
   };
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,7 +171,7 @@ const PortfolioList = () => {
       <div className='mt-5'>
         <div className='mt-5' id='showList'>
           <div>
-            <PortfolioListTable portfolios={table} handleTable={handleTable}/>
+            <PortfolioListTable portfolios={table} handleTable={handleTable} />
           </div>
         </div>
       </div>
