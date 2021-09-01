@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 
 import {
+  url,
   aboutMeUrl,
   educationUrl,
   equivUrl,
@@ -75,8 +76,9 @@ const EditEmpPortfolio = () => {
   useEffect(() => {
     //grab education info
     axios
-      .get(educationUrl + "/portfolio/all/" + cookies["portfolio"].id)
-      .then((response) => setEducations(response.data));
+      .get(url + "/portfolio/all/" + cookies["portfolio"].id)
+      .then((response) => dispatch(setPortfolio(response.data)));
+      /*
     //grab about me info
     axios
       .get(aboutMeUrl + "/portfolio/" + cookies["portfolio"].id)
@@ -95,7 +97,7 @@ const EditEmpPortfolio = () => {
     axios
       .get(matrixUrl + "/portfolio/" + cookies["portfolio"].id)
       .then((response) => setSkillMat(response.data));
-
+	*/
     if (!feedbackToastsThrown) {
       checkForFeedback();
       updateFeedbackToastsThrown(true);
